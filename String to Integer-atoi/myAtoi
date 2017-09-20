@@ -1,0 +1,42 @@
+class Solution(object):
+    def myAtoi(self, str):
+        if str=='':
+            return 0
+        begin=0
+        sign=0
+        issign=0
+        res=0
+        while begin<len(str) and str[begin]==' ':#去掉前面的空格符
+            begin+=1
+        while begin<len(str) and (str[begin]=='+' or str[begin]=='-' or str[begin]=='0'):#判断前面+-号，+-相消，多个则为0
+            if str[begin]=="+":
+                issign=1
+                sign+=1
+            if str[begin]=="-":
+                issign=1
+                sign-=1
+            begin+=1
+        if sign>1 or sign<-1:
+            return 0
+        while begin<len(str):#利用ascii将字符转换为数字，遇到非数字字符结束
+            if str[begin]==' ':
+                break
+            temp=ord(str[begin])-ord('0')
+            if temp>9 or temp<0:#判断非数字字符
+                break
+            res*=10
+            res+=temp
+            begin+=1
+        if issign==0:#判断是否有符号出现
+            sign=1
+        res=sign*res
+        if res>2147483647:#内存溢出
+            return 2147483647 
+        if res<-2147483648:
+            return -2147483648
+        return res
+        
+        """
+        :type str: str
+        :rtype: int
+        """
