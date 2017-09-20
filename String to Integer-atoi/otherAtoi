@@ -1,0 +1,37 @@
+
+class Solution(object):
+    def myAtoi(self, str):
+        """
+        :type str: str
+        :rtype: int
+        """
+        res = 0
+        a = str.lstrip()#去掉前面的空格符
+        try:
+            #第一个不是+/-/数字则返回0
+            if a[0] == '+':
+                sign = 1
+            elif a[0] == '-':
+                sign = -1
+            elif 48<=ord(a[0])<=57:
+                sign = 1
+                res = res*10 + (ord(a[0])-48)
+            else:
+                return 0
+            #将字符转换为数字
+            for ch in a[1::]:
+                if 48<=ord(ch)<=57:
+                    res=res*10+(ord(ch)-48)
+                else:
+                    break
+            #内存溢出
+            if (res*sign)>2147483647:
+                return 2147483647
+            elif (res*sign)<-2147483648:
+                return -2147483648
+            else:
+                return res*sign
+
+        except:
+            return 0
+
