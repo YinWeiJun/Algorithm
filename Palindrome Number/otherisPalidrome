@@ -5,3 +5,8 @@ class Solution(object):
             return True
         else:
             return False
+            
+ """
+ :启发
+ :数字与字符串之间的灵活转换，字符操作方便获取每一个的信息，以及字符串的倒置，数字在于方便比较大小
+ """
