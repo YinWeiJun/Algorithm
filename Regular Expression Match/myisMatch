@@ -1,0 +1,76 @@
+#并没有解决，还有一些情况没有匹配
+class Solution(object):
+    def isMatch(self, s, p):
+        if s=='' or p=='':
+            if s==''and p=='':
+                return True
+            else:
+                return False
+        scursor=0
+        pcursor=0
+        while scursor<(len(s)) and pcursor<len(p):
+            if s[scursor]==p[pcursor] or p[pcursor]=='.':
+                scursor+=1
+                pcursor+=1
+                continue
+            elif p[pcursor]=='*':
+                if scursor>0 and pcursor>0 and (s[scursor-1]==p[pcursor-1] or p[pcursor-1]=='.'):
+                    if s[scursor]==s[scursor-1]:
+                        while scursor<len(s) and (len(s)-scursor)>(len(p)-pcursor):
+                            scursor+=1
+                    else:
+                        if p[pcursor-1]=='.'and ((len(p)-pcursor)<=(len(s)-scursor)):
+                            scursor+=1
+                        pcursor+=1
+                        continue
+                    if pcursor<len(p) and (len(s)-scursor)<(len(p)-pcursor):
+                        pcursor+=1
+                        continue
+                else:
+                    pcursor+=1
+                    continue
+                pcursor+=1
+                scursor+=1
+            elif pcursor<len(p)-1 and p[pcursor+1]=="*":
+                if pcursor>0 and p[pcursor-1]=='*':
+                    pcursor+=1
+                    while scursor<len(s) and (len(s)-scursor)>=(len(p)-pcursor) and s[scursor]==s[scursor-1]:
+                        scursor+=1
+                    continue
+                pcursor+=2
+            else:
+                return False
+        
+        if scursor==len(s):
+            while pcursor<len(p):
+                if p[pcursor]=='*':
+                    pcursor+=1
+                elif pcursor<len(p)-1 and p[pcursor+1]=="*":
+                    pcursor+=2
+                elif pcursor>0 and p[pcursor-1]=='*':
+                    if pcursor>1:
+                        p1=(p[0:pcursor-1]+p[pcursor:])
+                        p2=(p[0:pcursor-2]+p[pcursor:])
+                        if self.isMatch(s, p1) or self.isMatch(s, p2):
+                            return True
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
+            if pcursor==len(p):
+                return True
+        else:
+            return False
+        
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        :知识点：RuntimeError: maximum recursion depth exceeded
+        ：Python专门设置的一种机制用来防止无限递归造成Python溢出，这个值理论上1000，实际运行时在900多次时就会报错。
+        ：import sys   
+        ：sys.setrecursionlimit(1000000)
+
+        """
