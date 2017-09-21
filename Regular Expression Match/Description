@@ -1,0 +1,21 @@
+Implement regular expression matching with support for '.' and '*'.
+
+'.' Matches any single character.
+'*' Matches zero or more of the preceding element.
+
+The matching should cover the entire input string (not partial).
+
+The function prototype should be:
+bool isMatch(const char *s, const char *p)
+
+Some examples:
+isMatch("aa","a") → false
+isMatch("aa","aa") → true
+isMatch("aaa","aa") → false
+isMatch("aa", "a*") → true
+isMatch("aa", ".*") → true
+isMatch("ab", ".*") → true
+isMatch("aab", "c*a*b") → true
+理解：
+一个'.'可以代表任何一个字符
+'*'并不是单独存在，而是与前一个字符一同出现，如c*a*b中'c*'就是一个整体，要么就是'c*'->'',要么就是'c*'->'c' or 'cc' or 'cc~'
