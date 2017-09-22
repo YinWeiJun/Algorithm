@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 '''
 @author: kevin
+思路：用key记录当前位置序号最小的位置对应的数值，从最右边开始向左边遍历，遍历到第一个小于key的数字（j），将key位置的值改为该数，
+然后遍历左边开始，到第一个大于的数（i），大于的数应该在key右边，所以该nums[j]=nums[i];然后在i~j之间继续，直到i==j, 说明i(j)左边的都小于key
+右边的都大于key，所以i（j）处赋值为key就可以了，返回i
 '''
 
 def quick_sort_standord(array,low,high):
