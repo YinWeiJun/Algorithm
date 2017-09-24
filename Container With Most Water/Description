@@ -1,0 +1,8 @@
+Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). 
+n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, 
+which together with x-axis forms a container, such that the container contains the most water.
+
+Note: You may not slant the container and n is at least 2.
+
+
+思考：问题明显设计左右两边的高度，所以很容易想到从两边向中间缩进，画图观察特点可以发现，每次改变较短一边的位置即可。
