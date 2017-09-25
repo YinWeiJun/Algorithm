@@ -1,0 +1,6 @@
+Given an integer, convert it to a roman numeral.
+
+Input is guaranteed to be within the range from 1 to 3999.
+
+思考：由于每个位数上最多有9种情况，所以可以通过枚举简单实现
+推广：对于场景不对且明确的，都可以通过枚举进行实现
