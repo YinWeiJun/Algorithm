@@ -1,0 +1,36 @@
+class Solution(object):
+    mapping = {
+        'I': 1,
+        'IV': 4,
+        'V': 5,
+        'IX': 9,
+        'X': 10,
+        'XL': 40,
+        'L': 50,
+        'XC': 90,
+        'C': 100,
+        'CD': 400,
+        'D': 500,
+        'CM': 900,
+        'M': 1000,
+    }
+    
+    def romanToInt(self, s):
+        """
+        :type s: str
+        :rtype: int
+        :思想：由于所有情况中只有9,40,90等情况比较特殊，但是情况有限，我们可以直接枚举
+        :枚举出所有情况，直接相加即可
+        """
+        mapping = self.mapping
+        number, i = 0, 0
+        while i < len(s):
+            two = s[i: i + 2]
+            if two in mapping:
+                number += mapping[two]
+                i += 2
+            else:
+                one = s[i]
+                number += mapping[one]
+                i += 1
+        return number
