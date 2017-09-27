@@ -1,0 +1,20 @@
+class Solution(object):
+    def romanToInt(self, s):
+        romanDict={"M":1000, "D":500, "C":100, "L":50, "X":10, "V":5, "I":1}
+        res=0
+        for i in xrange(len(s)):
+            tmp1=romanDict[s[i]]
+            tmp2=0
+            if i<len(s)-1:
+                tmp2=romanDict[s[i+1]]
+            if tmp1>=tmp2:
+                res+=tmp1
+            else:
+                res-=tmp1
+        return res
+        """
+        :type s: str
+        :rtype: int
+        :思想：罗马数字从左往右移动，如果前一个比后一个小，说明其和后一个组合在一起，类似IV，I<V,结果是V-I，所以直接在
+        :结果在红减去I即可，当其比前一个大，如VI,则结果直接加上V即可
+        """
