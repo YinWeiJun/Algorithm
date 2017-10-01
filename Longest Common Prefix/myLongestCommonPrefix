@@ -1,0 +1,30 @@
+class Solution(object):
+    def commonPrefix(self, str1, str2):
+        n=min(len(str1), len(str2))
+        for i in xrange(n):
+            if str1[i]==str2[i]:
+                i+=1
+            else:
+                return str1[0:i]
+        return str1[0:n]
+        
+    
+    def longestCommonPrefix(self, strs):
+        if strs==[]:
+            return ''
+        elif len(strs)==1:
+            return strs[0]
+        elif len(strs)==2:
+            return self.commonPrefix(strs[0], strs[1])
+        else:
+            tmp1=self.longestCommonPrefix(strs[0: len(strs)/2+1])
+            tmp2=self.longestCommonPrefix(strs[len(strs)/2+1: len(strs)])
+            return self.commonPrefix(tmp1, tmp2)
+            
+        
+        
+        """
+        :type strs: List[str]
+        :rtype: str
+        :问题最简单的思路直接遍历，复杂度n,类似排序，采用2分法将复杂度降到logn
+        """
