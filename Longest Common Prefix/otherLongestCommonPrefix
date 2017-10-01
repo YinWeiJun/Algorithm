@@ -3,6 +3,8 @@ class Solution(object):
         """
         :type strs: List[str]
         :rtype: str
+        :利用python自带的字符串排序机制，首先比较所有字符串第一个字符的ASCII大小
+        :如果相同就比较第二个，所以在排序之后，只用比较第一个和最后一个字符的共同部分即可
         """
         if not strs:
             return ''
