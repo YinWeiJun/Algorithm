@@ -1,0 +1,16 @@
+class Solution(object):
+    def twoSum(self, nums, target):
+        looktable = {}
+        for i, v in enumerate(nums):
+            if target - v in looktable:
+                return [looktable[target-v], i]
+            looktable[v] = i
+            
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        :思路通过looktable（python dict）将n^2的复杂度减低到n
+        :python dict特点 不论dict多长，查询复杂度都是1，能够很好的查询
+        :但是list不同，list虽然占用的内存小，但是查询速度会随着长度的增加效率变低
+        """
