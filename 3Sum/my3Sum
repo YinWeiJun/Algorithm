@@ -1,2 +1,41 @@
 class Solution(object):
-  def 
+    def twoSum(self, nums, left, target, rList):
+        signDict={}
+        while left<len(nums):
+            v=nums[left]
+            if v in signDict:
+                if signDict[v]==1:
+                    rList.append([-target, target-v, v])
+                    signDict[v]=2
+                    left+=1
+                    continue
+                else:
+                    left+=1
+                    continue
+            signDict[target-v]=1
+            left+=1
+            
+    def threeSum(self, nums):
+        if (len(nums))<3:
+            return []
+        else:
+            pass
+        nums.sort()
+        rList=[]
+        signDict={}
+        i=0
+        while i< len(nums)-2:
+            v=nums[i]
+            if i>0 and nums[i]==nums[i-1]:
+                i+=1
+            else:
+                self.twoSum(nums, i+1, -v, rList)
+                i+=1
+        return rList
+            
+        
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        :思想：结合2Sum，每次固定一个数v，只用在2Sum的基础上将结果改为-v即可，数组排序可以方便的去除重复
+        """
