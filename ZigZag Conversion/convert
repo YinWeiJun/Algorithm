@@ -1,0 +1,29 @@
+class Solution(object):
+    def convert(self, s, numRows):
+        if len(s) <= numRows or numRows==1:
+            return s
+        temp=[]
+        for i in xrange(numRows):
+            temp.append('')
+        n=0
+        sign=1
+        res=''
+        for i in xrange(len(s)):
+            temp[n]+=s[i]
+            n+=sign
+            if n > numRows-1:
+                n-=2
+                sign=-1
+            if n < 0:
+                n+=2
+                sign=1
+        for i in xrange(numRows):
+            res+=temp[i]
+        return res
+    
+        """
+        :type s: str
+        :type numRows: int
+        :rtype: str
+        :思路：找规律即可
+        """
