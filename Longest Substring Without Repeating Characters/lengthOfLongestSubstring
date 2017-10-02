@@ -1,0 +1,23 @@
+class Solution():
+    def __init__(self):
+        pass
+
+    def lengthOfLongestSubstring(self, s):
+        begin = 0
+        length = 0
+        usedChar = {}
+
+        for i in xrange(len(s)):
+            if s[i] in usedChar and begin <= usedChar[s[i]]:
+                begin = usedChar[s[i]] + 1
+            else:
+                length = max(length, i - begin + 1)
+            usedChar[s[i]] = i
+            
+        return length
+
+
+#思路：只用顺序遍历，类似2Sum利用dict记录访问过的字符，同时判断是否重复
+#值得学习的是，利用begin游标判断重复的位置不是之前排除的，如果dacaed...
+#第一次判dabca，a重复，从重复位置的下一个开始d,但是d在字典中已经有了，却不是真的重复，因为判断是从caed并没有重复
+#为此引入begin，除了重复，还要重复的位置在begin后面
