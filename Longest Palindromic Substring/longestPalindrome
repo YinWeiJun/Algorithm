@@ -1,0 +1,26 @@
+class Solution(object):
+    def longestPalindrome(self, s):
+        ls = len(s)
+        maxs = s[0] if s else ''
+        for i in xrange(ls-1):
+            if 2 * (ls - i) -1 <= len(maxs):  # stop the iteration, if the left character * 2 + 1 can't be longer than maxs
+                return maxs
+            pl = pr = i
+            while pr < ls-1 and s[pr] == s[pr+1]:
+                pr +=1
+            while pl > 0 and pr < ls-1:
+                if s[pr+1] == s[pl-1]:
+                    pr += 1
+                    pl -= 1
+                else:
+                    break
+            if pr - pl + 1 > len(maxs):
+                maxs = s[pl:pr+1]
+        return maxs    
+    
+        """
+        :type s: str
+        :rtype: str
+        :思路：回文两种情况abc, abb看似要区分，但是只要注意判断从与中间不同的开始即可，无论aba abba abbba都一样了
+        :回文只要是对称，所以直接从中间往两边扩散即可
+        """
