@@ -4,7 +4,8 @@ class Solution(object):
         :type nums: List[int]
         :type target: int
         :rtype: int
-        :思路：最直接的是n^3的复杂度，学习2Sum和3Sum的思想，只用把3Sum中的0改为记录差值即可
+        :思想，与3Sum思想类似，只是将0改为判断差值更小，只是在排序之后，如果3个数的和与target的差值，如果差值大（小）于0，说明3数和过大
+        :r-=1（l+=1），这样差值会变小。只用判断每一个数找到最小即可。
         """
         nums.sort()
         res=target-nums[0]-nums[1]-nums[2]
