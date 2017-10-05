@@ -1,0 +1,32 @@
+class Solution(object):
+    def letterCombinations(self, digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        :思路：数字对应字母情况是具体明确的，可以采用枚举的方法，   对于digits长度不明确，通过循环一个一个加入
+        """
+        if digits=='':
+            return []
+        
+        phoneStrs=[
+            [],
+            [],
+            ['a','b','c'],
+            ['d','e','f'],
+            ['g','h','i'],
+            ['j','k','l'],
+            ['m','n','o'],
+            ['p','q','r','s'],
+            ['t','u','v'],
+            ['w','x','y','z']
+        ]
+        
+        res=[]
+        res=phoneStrs[int(digits[0])]
+        i=1
+        while i < len(digits):
+            tmp=phoneStrs[int(digits[i])]
+            res=[m+n for m in res for n in tmp]
+            i+=1
+          
+        return res
