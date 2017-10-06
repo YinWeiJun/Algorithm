@@ -1,0 +1,43 @@
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution(object):
+    def removeNthFromEnd(self, head, n):
+        """
+        :type head: ListNode
+        :type n: int
+        :rtype: ListNode
+        :思路:最简单的想法，计算出总数，减去n，得到正序应该去除的位置，直接遍历到该位置，删除即可
+        """
+        if head==None:
+            return None
+        if n==0:
+            return head
+        #计算长度
+        length=1
+        tmp=head.next
+        while tmp!=None:
+            length+=1
+            tmp=tmp.next
+        #计算位置
+        position=length-n
+        if position<0:
+            return head
+        elif position==0:
+            if head.next==None:
+                return []
+            return head.next
+        #找到对应位置
+        i=1
+        res=head
+        while i<position:
+            res=res.next
+            i+=1
+        if res.next!=None:
+            res.next=res.next.next
+        
+        return head
+            
