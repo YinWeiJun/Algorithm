@@ -1,0 +1,29 @@
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution(object):
+    def removeNthFromEnd(self, head, n):
+        """
+        :type head: ListNode
+        :type n: int
+        :rtype: ListNode
+        :思想:两个游标一起动，只要两个游标的间隔为n即可，当一个游标到达末尾时候，另一个游标刚好到达应该去除的位置
+        """
+        slow = head
+        fast = head
+        for _ in range(n):
+            fast = fast.next
+            
+        if not fast:
+            return head.next
+        
+        while fast and fast.next:
+            fast = fast.next
+            slow = slow.next
+        
+        slow.next = slow.next.next
+        return head
+            
