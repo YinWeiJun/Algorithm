@@ -1,0 +1,19 @@
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        ：思路：巧妙的应用in语句，将直接判断反括号前一个与当前位置组合情况是否是闭合
+        """
+        parentheses = []
+        for i in s:
+            if i in '({[':
+                parentheses.append(i)
+            elif i in ')}]':
+                if parentheses:
+                    j = parentheses.pop()
+                    if j+i not in '() {} []':
+                        return False
+                else:
+                    return False
+        return parentheses == []
