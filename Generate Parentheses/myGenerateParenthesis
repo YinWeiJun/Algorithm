@@ -1,0 +1,30 @@
+class Solution(object):
+    
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        :思路：对于逻辑复杂，有层次关系的问题，迭代思想非常好用，选择迭代的规律：n个括号，可以分成（+generateParenthesis(n-1)+）
+        :或者（+generateParenthesis（m1）+）+(+generateParenthesis(m2)+),其中(m1+1)+(m2+1)=n,
+        :即generateParenthesis（m1）+generateParenthesis(m2)，其中m1+m2=n,为了减少重复m1<=m2
+        """
+        if n==1:
+            return ['()']
+        n1 = n
+        res = []
+        res1 = self.generateParenthesis(n-1)
+        res2 = ['('+s+')' for s in res1]
+        res += res2
+        for i in xrange(n/2):
+            m = i + 1
+            res3 = self.generateParenthesis(m)
+            res4 = self.generateParenthesis(n1 - m)
+           
+            res5 = [m + n for m in res3 for n in res4]
+            res6 = [m + n for m in res4 for n in res3]
+            
+            res7 = res5 + res6
+            res7 = list(set(res7))
+            res += res7
+        res = list(set(res))
+        return res
