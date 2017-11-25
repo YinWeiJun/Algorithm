@@ -1,0 +1,2 @@
+def Minus(a,b):
+  return Add(a, negative(b))
