@@ -1,5 +1,15 @@
+//递归版本的加法实现
 def Add(a,b):
-            if b:
-                return Add(a^b, (a&b)<<1)
-            else:
-                return a
+    if b:
+            return Add(a^b, (a&b)<<1)
+    else:
+            return a
+
+//该为迭代版本
+def add(a, b):
+     ans=0
+     while(b):
+             ans=a^b
+             b=(a&b)<<1
+             a=ans
+     return ans
