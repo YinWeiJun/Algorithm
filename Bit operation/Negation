@@ -1,0 +1,2 @@
+def Negation(a):
+  return Add(~a, 1)
