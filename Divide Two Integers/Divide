@@ -7,7 +7,7 @@ class Solution(object):
         :思想：首先理解除法的含义：dividend由多少个divisor求和得到；
         :最简单的方式实现就是每次循环-divisor,记录循环次数，直到dividend<divisor为止；
         :如果每次循环只是增加divisor，当遇到大数除以小数时就会效率很低；
-        :所以采用下面的方式进行计算，用两层循环，最外层保证dividend>divisor,第二层，第一次循环-divisor，第二次如果dividend>divisor*2
+        :所以采用下面的方式进行计算，用两层循环，最外层保证dividend>divisor,第二层，第一次循环-divisor，第二次如果dividend>divisor*2（temp<<1即可）
         :就-divisor*2,第三次divisor×4,以此类推，直到dividend<divisor*n时，退出第二层，回到第一层，然后进入第二层，再次从-divisor开始...
         :最后得到结果
         """
