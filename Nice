@@ -1,0 +1,5 @@
+1.判断两个数是相同正负还是不同正负
+positive = (num1 < 0) is (num2 < 0)
+
+2.要求取值是left和right之间
+min(max(left, n), right)
