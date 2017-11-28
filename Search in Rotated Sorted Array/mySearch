@@ -1,0 +1,31 @@
+class Solution(object):
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        :思想：如果target大于第一个数，就从第一个数字的右边与数组最大数之间查找，即从第一个数右边查找，要么找到，要么出现数字比targe小结束
+        :如果target小于最后一个数，就从数组最小数和最右边数字之间查找，即从最后往左找，要么找到，要么数字大于target结束
+        """
+        if len(nums)==0:
+            return -1
+        left=nums[0]
+        right=nums[len(nums)-1]
+        if target>=left:
+            i=0
+            while i<len(nums) and nums[i]<=target:
+                if nums[i]==target:
+                    return i
+                else:
+                    i+=1
+            return -1
+        elif target<=right:
+            i=len(nums)-1
+            while i>=0 and nums[i]>=target:
+                if nums[i]==target:
+                    return i
+                else:
+                    i-=1
+            return -1
+        else:
+            return -1
