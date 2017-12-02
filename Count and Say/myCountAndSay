@@ -1,0 +1,23 @@
+class Solution(object):
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        :思想：本题其实就是描述n=n-1的记过，有几个什么几个什么，所以首先要回去countAndSay(n-1)
+        :然后遍历结果即可，对于比较复杂的循环问题，直接采用递归即可
+        """
+        if n==1:
+            return "1"
+        tmp=self.countAndSay(n-1)
+        res,s,i,m="","",0,0
+        while i<(len(tmp)): 
+            if tmp[i]==s:
+                m+=1
+            else:
+                if m!=0:
+                    res+=str(m)+s
+                s=tmp[i]
+                m=1
+            i+=1
+        res+=str(m)+s
+        return res
