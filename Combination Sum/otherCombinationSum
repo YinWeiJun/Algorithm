@@ -1,0 +1,24 @@
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        res = []
+        _path = []
+        candidates.sort() # sort the candidate values
+        pos = 0
+        self.dfs(candidates, target, pos, _path, res)
+        return res
+        
+    def dfs(self, candidates, target, pos, _path, res):
+        if (target == 0):
+            res.append(_path[:])
+            return
+        
+        while (pos < len(candidates) and candidates[pos] <= target):
+            _path.append(candidates[pos])
+            self.dfs(candidates, target-candidates[pos], pos, _path, res)
+            _path.pop() #backtrack
+            pos += 1
