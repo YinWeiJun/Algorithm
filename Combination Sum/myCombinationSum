@@ -1,0 +1,57 @@
+class Solution(object):
+    def getCandidates(self, candidates, target):
+        if len(candidates)==0 or target<candidates[0]:
+            return []
+        left,right=0,len(candidates)-1
+        while left<=right:
+            mid=(left+right)/2
+            if candidates[mid]==target:
+                return candidates[0:mid+1]
+            elif candidates[mid]<target:
+                left=mid+1
+            else:
+                right=mid-1
+        return candidates[0:left]
+    
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        :思想：由于组合情况过多，且不能枚举，所以采用递归的方式进行解答，通过二分查找比较小的candidattes降低遍历的次数
+        """
+        if len(candidates)==0:
+            return []
+        candidates=sorted(candidates)
+        candidates=self.getCandidates(candidates, target)
+        lenC=len(candidates)
+        if lenC==1 and candidates[0]==target:
+            return [[target]]
+        res=[]
+        signDict={}
+        for i in xrange(len(candidates)):
+            tmpR=self.combinationSum(candidates, target-candidates[i])
+            if len(tmpR)==0:
+                if candidates[i]==target:
+                    if str([target]) in signDict:
+                        continue
+                    signDict[str([target])]=1
+                    res.append([target])
+                else:
+                    continue 
+            else:
+                for j in xrange(len(tmpR)):
+                    if len(tmpR[j])==0:
+                        if candidates[i]==target:
+                            tmpR[j].append(candidates[i])
+                        else:
+                            continue
+                    else:
+                        tmpR[j].append(candidates[i])
+            
+                    tmpR[j]=sorted(tmpR[j])
+                    if str(tmpR[j]) in signDict:
+                        continue
+                    signDict[str(tmpR[j])]=1
+                    res.append(tmpR[j])
+        return res
