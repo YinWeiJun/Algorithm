@@ -1,0 +1,30 @@
+class Solution(object):
+    
+    
+    def combinationSum2(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        :思想：借鉴Combination Sum思想，采用深度优先遍历进行解答
+        """
+        if target==0 or len(candidates)==0:
+            return []
+        
+        candidates.sort()
+        res,tmp,pos,signDict=[],[],0,{}
+        self.dfs(candidates, target, pos, tmp, res, signDict)
+        return res
+        
+    def dfs(self, candidates, target, pos, tmp, res, signDict):
+        if (target == 0):
+            if str(tmp) not in signDict:
+                res.append(tmp[:])
+                signDict[str(tmp)]=1
+            return
+        
+        while (pos < len(candidates) and candidates[pos] <= target):
+            tmp.append(candidates[pos])
+            self.dfs(candidates, target-candidates[pos], pos+1, tmp, res, signDict)
+            tmp.pop() #backtrack
+            pos+=1
