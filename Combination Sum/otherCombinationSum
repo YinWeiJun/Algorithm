@@ -4,7 +4,7 @@ class Solution(object):
         :type candidates: List[int]
         :type target: int
         :rtype: List[List[int]]
-        :思想：从最小的才开始，先找出包含最小的结果，在找出所以包含第二小的结果。。。
+        :思想：从最小的才开始，先找出包含最小的结果，在找出所以包含第二小的结果。。。(深度优先遍历)
         """
         res = []
         _path = []
