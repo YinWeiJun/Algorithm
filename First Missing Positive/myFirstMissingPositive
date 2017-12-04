@@ -1,0 +1,20 @@
+class Solution(object):
+    def firstMissingPositive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        :思想：去重，排序，直接遍历，pos作为目标，开始pos=1,有了之后pos+1.
+        """
+        nums=list(set(nums))
+        nums.sort()
+        i=0
+        pos=1
+        while i < len(nums) and nums[i]<=0:
+            i+=1
+        while i < len(nums):
+            if nums[i]==pos:
+                pos+=1
+                i+=1
+            else:
+                break
+        return pos
