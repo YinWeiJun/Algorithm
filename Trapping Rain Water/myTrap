@@ -1,0 +1,25 @@
+class Solution(object):
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        :思想：由木桶原理得到启发，计算储水之后的总和，储水之后的总和-储水之前的总和=储水量
+        """
+        if len(height)<=2:
+              return 0
+        left,right=0,len(height)-1
+        res,val=0,0
+        while left<=right:
+            if height[left]<=height[right]:
+                res+=(height[left]-val)*(right-left+1)
+                val=height[left]
+                left+=1
+                while left<=right and height[left]<=val:
+                    left+=1 
+            elif height[left]>height[right]:
+                res+=(height[right]-val)*(right-left+1)
+                val=height[right]
+                right-=1
+                while left<=right and height[right]<=val:
+                    right-=1
+        return res-sum(height)
