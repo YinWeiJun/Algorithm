@@ -1,0 +1,33 @@
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        :思想：pow(x,-n)=1.0/pow(x,n),所以只用计算pow（x,n）
+        :理解x的n次方，就是n个x相乘，遍历即可，为了更快遍历，采用梯度增加的方式，如pow（3，8）
+        :第一次res=1,tmp=3,j=1,当j<=n时候，res=res*tmp,然后j=j+1,j=2,tmp=tmp*tmp=9,res=res*9
+        :这样只用了两次遍历就计算了pow（3，3），这样下去，第三次遍历就计算了pow(3,7)....
+        """
+        if n==0:
+            return 1
+        absx,absn=abs(x),abs(n)
+        tmp,tmpn=absx,absn
+        if absx==1:
+            tmpn,res=0,1
+        i,j,res=0,1,1
+        while i < absn and tmpn!=0:
+            while j<=tmpn:
+                res*=tmp
+                tmpn-=j
+                j*=2
+                tmp*=tmp
+            i,j=i+1,1
+            tmp=absx       
+        
+        res=min(max(-2147483648,res),2147483647)
+        if x<0 and n%2==1:
+            res=-res
+        if n<0:
+            res=1.0/res
+        return res
