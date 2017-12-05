@@ -4,6 +4,7 @@ class Solution(object):
         :type x: float
         :type n: int
         :rtype: float
+        :思想，类似二分，比如Pow(3,9)=Pow(3,1)*Pow(3,8),Pow(3,8)=Pow(Pow(3,2),4）……
         """
         if x == 1.0 or n == 0: return 1.0
         
