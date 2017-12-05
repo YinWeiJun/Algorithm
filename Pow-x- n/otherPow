@@ -1,0 +1,17 @@
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        if x == 1.0 or n == 0: return 1.0
+        
+        ret, negative = 1.0, False
+        if n < 0: negative, n = True, -n
+            
+        while n:
+            if n % 2: ret, n = ret * x, n - 1
+            x, n = x * x, n/2
+        
+        return 1.0/ret if negative else ret
