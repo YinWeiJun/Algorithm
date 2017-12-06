@@ -1,0 +1,28 @@
+class Solution(object):
+    def isMatch(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        """
+        i=j=0 # i,j are pointer for s and p respectively
+        I,J=len(s),len(p)
+        star,match=-1,0 # star is the wild card
+
+        while i<I:
+            if j<J and (s[i]==p[j] or p[j]=='?'):
+                i+=1
+                j+=1
+            elif j<J and p[j]=='*':
+                match=i
+                star=j
+                j+=1
+            elif star!=-1:
+                j=star+1
+                match+=1
+                i=match
+            else:
+                return False
+
+        while j<J and p[j]=='*': j+=1
+        return True if j==J else False
