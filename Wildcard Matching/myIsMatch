@@ -1,0 +1,49 @@
+class Solution(object):
+    def isMatch(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        :思想：递归思想，但是效率不高
+        """
+        if len(p)==0:
+            if len(s)==0:
+                return True
+            else:
+                return False
+        if p[0]=="*":
+            return self.match(s[::-1], p[::-1])
+        else:
+            return self.match(s, p)
+        
+    
+    def match(self, s, p):
+        print "-----------------"
+        print s,p
+        if p=="*":
+            return True
+        i,j=0,0
+        while i<len(s) and j<len(p):
+            if s[i]==p[j] or p[j]=="?":
+                i+=1
+                j+=1
+            elif p[j]=="*":
+                if j+1<len(p):
+                    if p[j+1]=="*":
+                        j+=1
+                    elif s[i]!=p[j+1] and p[j+1]!="?":
+                            i+=1
+                    elif i+1<len(s):
+                            return self.match(s[i:],p[j+1:]) or self.match(s[i+1:],p[j:])
+                    else:
+                        j+=1
+                else:
+                    return True
+            else:
+                return False
+        while j<len(p) and p[j]=="*":
+            j+=1
+        if i<len(s) or j<len(p):
+            return False
+        else:
+            return True
