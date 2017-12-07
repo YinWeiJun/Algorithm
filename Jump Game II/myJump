@@ -1,0 +1,28 @@
+class Solution(object):
+    def jump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        :思想：每次选择可以走到能够走到最远的位置，如[2,1,2,2,3,1.……] 第一次pos=0，可以选择跳一格或者两格
+        :如果选择跳一格，则下一次只能跳一格，如果跳2格，下次可以跳动2格，也就是跳两个的选择包含了跳一格的，所以选择跳2格，
+        :同样，跳到pos=2之后，下次选择pos=4，因为他包含了其他的选择，pos更改一次,res+=1，直到能够到达终点为止。
+        """
+        target=len(nums)-1
+        if target<0:
+            return 0
+        tmp,res,pos=nums[0],0,0
+        while pos!=target:
+            if pos+1==target:
+                return (res+1)
+            i,maxI,maxJump=2,pos+1,nums[pos+1]
+            while i <= tmp:
+                if pos+i==target:
+                    return (res+1)
+                if nums[pos+i]+i-1>maxJump:
+                    maxI=pos+i
+                    maxJump=nums[maxI]+i-1
+                i+=1
+            pos=maxI
+            tmp=nums[pos]
+            res+=1
+        return res
