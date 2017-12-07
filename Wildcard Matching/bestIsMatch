@@ -4,6 +4,7 @@ class Solution(object):
         :type s: str
         :type p: str
         :rtype: bool
+        :用循环的方式实现递归的思想，“*”分为两种情况，代表0个（不保留“*”），或者代表一个（保留“*”,所以可能还会增加）
         """
         i=j=0 # i,j are pointer for s and p respectively
         I,J=len(s),len(p)
