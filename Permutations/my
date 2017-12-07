@@ -1,0 +1,27 @@
+class Solution(object):
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        :思想：深度优先。理解，有几个数字就有几个盒子，从第一个盒子开始，每次到一个盒子，把拥有的数字里面i最小的放进去
+        """
+        res=[]
+        book=[0]*len(nums)
+        tmp=[0]*len(nums)
+        pos=0
+        self.dfs(0, nums, tmp, res, book)
+        return res
+    
+    def dfs(self,pos, nums, tmp, res, book):
+        if pos==len(nums):
+            tmpr=copy.deepcopy(tmp)
+            res.append(tmpr)
+        else:
+            i=0
+            while i < len(nums):
+                if book[i]==0:
+                    tmp[pos]=nums[i]
+                    book[i]=1
+                    self.dfs(pos+1,nums,tmp,res,book)
+                    book[i]=0
+                i+=1
