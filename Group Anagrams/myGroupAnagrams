@@ -18,3 +18,11 @@ class Solution(object):
                 book[s]=len(res)
                 res.append([val])
         return res
+
+＃相同的思想，不同的写法
+class Solution(object):
+    def groupAnagrams(self, strs):
+        ans = collections.defaultdict(list)
+        for s in strs:
+            ans[tuple(sorted(s))].append(s)
+        return ans.values()
