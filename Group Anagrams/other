@@ -1,0 +1,10 @@
+#对应字母在字符串中的数量判断是否两个字符串的组成字母相同
+class Solution:
+    def groupAnagrams(strs):
+        ans = collections.defaultdict(list)
+        for s in strs:
+            count = [0] * 26
+            for c in s:
+                count[ord(c) - ord('a')] += 1
+            ans[tuple(count)].append(s)
+        return ans.values()
