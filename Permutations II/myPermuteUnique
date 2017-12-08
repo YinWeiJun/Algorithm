@@ -19,3 +19,24 @@ class Solution(object):
                     res.append(tmp)
                     book[str(tmp)]=1
         return res
+        
+#优化 通过排序去重，减少字典的写入写出操作      
+class Solution(object):
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        if not nums:
+            return []
+        if len(nums) == 1:
+            return [nums]
+        nums.sort()
+        res = []
+        for i in range(len(nums)):
+            if i>=1 and nums[i]==nums[i-1]:
+                i+=1
+                continue
+            for j in self.permuteUnique(nums[:i] + nums[i + 1:]):
+                res.append([nums[i]] + j)
+        return res
