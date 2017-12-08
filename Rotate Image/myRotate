@@ -15,3 +15,18 @@ class Solution(object):
                 matrix[n-i][n-j]=matrix[j][n-i]
                 matrix[j][n-i]=tmp
         print matrix
+        
+        
+class Solution(object):
+    def rotate(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        :思想：两个组合组成，第i列与第n-i列交换，然后进行矩阵转置，或者两个顺序对换
+        """
+        matrix.reverse()
+        for i in range(len(matrix)):
+            for j in range(i):
+                matrix[i][j],matrix[j][i]=matrix[j][i],matrix[i][j]
+
+                
