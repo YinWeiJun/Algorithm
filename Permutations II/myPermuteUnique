@@ -1,0 +1,21 @@
+class Solution(object):
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        :思想:递归，但是存在大量重复的情况，比如[1,1,1,2],选出第一个，排列后面的，然后加到队首，然后选出第二个，排列后面的
+        :一直到最后，但是[1,1,1,2]选出了３次１
+        """
+        if not nums:
+            return []
+        if len(nums) == 1:
+            return [nums]
+        book={}
+        res = []
+        for i in range(len(nums)):
+            for j in self.permuteUnique(nums[:i] + nums[i + 1:]):
+                tmp=[nums[i]] + j
+                if str(tmp) not in book:
+                    res.append(tmp)
+                    book[str(tmp)]=1
+        return res
