@@ -1,0 +1,17 @@
+class Solution(object):
+    def rotate(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        :思想：每次旋转只要不是最中心的一个像素栅格，都会包含４个格子之间的交换，寻找４个格子之间的关系即可
+        :规律：都是[i,j] [j,n-i] [n-i,n-j] [n-j,i]之间的交换
+        """
+        n=len(matrix)-1
+        for i in range(len(matrix)/2):
+            for j in range(i,n-i):
+                tmp=matrix[i][j]
+                matrix[i][j]=matrix[n-j][i]
+                matrix[n-j][i]=matrix[n-i][n-j]
+                matrix[n-i][n-j]=matrix[j][n-i]
+                matrix[j][n-i]=tmp
+        print matrix
