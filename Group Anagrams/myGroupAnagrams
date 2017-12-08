@@ -1,0 +1,20 @@
+class Solution(object):
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        :思想：通过book记录的已经遍历过的排序后的字母，和该字母对应字母现在存储在res中的位置，
+        :每个字母通过转为list进行排序，如果book里面存在就存到对应的位置，否则res中添加新的[val],并在book中记录位置ｉ
+        """
+        book={}
+        res=[]
+        for val in strs:
+            l=list(val)
+            l.sort()
+            s="".join(l)
+            if s in book:
+                res[book[s]].append(val)
+            else:
+                book[s]=len(res)
+                res.append([val])
+        return res
