@@ -9,6 +9,7 @@ class Solution(object):
         """
         :type lists: List[ListNode]
         :rtype: ListNode
+        :思想：每次merge两个，利用二分法减少次数
         """
         if len(lists)==0:
             return []
