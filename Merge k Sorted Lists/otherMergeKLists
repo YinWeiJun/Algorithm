@@ -1,3 +1,58 @@
+Approach #1 Brute Force [Accepted]
+
+Intuition & Algorithm
+
+-Traverse all the linked lists and collect the values of the nodes into an array.
+-Sort and iterate over this array to get the proper value of nodes.
+-Create a new sorted linked list and extend it with the new nodes.
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        self.nodes = []
+        head = point = ListNode(0)
+        for l in lists:
+            while l:
+                self.nodes.append(l.val)
+                l = l.next
+        for x in sorted(self.nodes):
+            point.next = ListNode(x)
+            point = point.next
+        return head.next
+
+Approach #3 Optimize Approach 2 by Priority Queue [Accepted]
+
+Algorithm
+
+-Almost the same as the one above but optimize the comparison process by priority queue. 
+You can refer here for more information about it.
+
+from Queue import PriorityQueue
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        head = point = ListNode(0)
+        q = PriorityQueue()
+        for l in lists:
+            if l:
+                q.put((l.val, l))
+        while not q.empty():
+            val, node = q.get()
+            point.next = ListNode(val)
+            point = point.next
+            node = node.next
+            if node:
+                q.put((node.val, node))
+        return head.next
+
+
+
 
 import heapq
 # Definition for singly-linked list.
