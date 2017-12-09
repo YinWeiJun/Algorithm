@@ -9,7 +9,6 @@ class Solution(object):
         """
         :type lists: List[ListNode]
         :rtype: ListNode
-        :思想：显然每次只能merge两个，采用二分法减少merge次数
         """
         if len(lists)==0:
             return []
@@ -19,7 +18,7 @@ class Solution(object):
         if k==2:
             res=ListNode(0)
             tmp=ListNode(0)
-            res.next=tmp
+            res=tmp
             list1,list2=lists[0],lists[1]
             if list1==None:
                 return list2
@@ -37,7 +36,7 @@ class Solution(object):
             if list1:
                 list2=list1
             tmp.next=list2
-            return res.next.next
+            return res.next
         else:
             if k%2==0:
                 return self.mergeKLists([self.mergeKLists(lists[0:k/2])]+[self.mergeKLists(lists[k/2:])])
