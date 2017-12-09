@@ -11,7 +11,7 @@ class Solution(object):
         :type k: int
         :rtype: ListNode
         :思想：每次反转ｋ个ListNode,记录反转完后的ListNode，然后将没有遍历的ListNode作为head进行递归
-        :反转则通过讲ListNode存到dict中，然后逆序遍历加入ListNode就可以了
+        :反转则通过讲ListNode存到dict(也可以用list)中，然后逆序遍历加入ListNode就可以了
         """
         if k<2 or head==None or head.next==None:
             return head
