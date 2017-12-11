@@ -1,0 +1,42 @@
+class Solution(object):
+    def solveNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        """
+        def next_queen(queens, n, xydif, xysum):
+            row = len(queens)
+            if row == n:
+                res.append(queens)
+                return
+            for col in range(n):
+                if col not in queens:
+                    if (col - row) not in xydif and (col + row) not in xysum:
+                        next_queen(queens + [col], n, xydif + [col-row], xysum+[col+row])
+                    
+        if n == 1:
+            return [['Q']]
+        res = []
+        configs = []
+        for col in range(n/2):
+            next_queen([col], n, [col], [col])
+            
+        for queens in res:
+            config = []
+            for q in queens:
+                config.append('.'*q+'Q'+'.'*(n-1-q))
+            configs.append(config)
+            configs.append([row[::-1] for row in config])
+                
+        res = []    
+        if n%2:
+            col = n/2
+            next_queen([col], n, [col], [col])
+        for queens in res:
+            config = []
+            for q in queens:
+                config.append('.'*q+'Q'+'.'*(n-1-q))
+            configs.append(config)
+            
+
+        return configs
