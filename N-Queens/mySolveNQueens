@@ -1,0 +1,54 @@
+class Solution(object):
+    def solveNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        :思想：掌握规则，对于ｎ这种不知道几个的情况，最好用递归
+        :规则：不同行，不同列，不共有斜线（第i+1行的列p,第i行的列j, p!=j-1 and p!=j+1）
+        """
+        if n<4:
+            if n==1:
+                return [["Q"]]
+            return []
+        
+        i,res=0,[]
+        while i < (n+1)/2:
+            tmp,tmp2,booki=[],[],[]
+            tmps="."*(i)+"Q"+"."*(n-i-1)
+            tmp.append(tmps)
+            tmp2.append(tmps[::-1])
+            book=[0]*n
+            book[i]=1
+            booki.append(i)
+            self.dfs(n, book, booki, i, tmp, tmp2, res)
+            i+=1
+        return res
+    
+    def dfs(self, n, book, booki, pos, tmp, tmp2, res):
+        if sum(book)==n and self.checkBook(booki):
+            print tmp
+            tmp3=copy.deepcopy(tmp)
+            res.append(tmp3)
+            if tmp2[0]!=tmp[0]:
+                tmp4=copy.deepcopy(tmp2)
+                res.append(tmp4)
+        i,left,right=0,pos-1,pos+1
+        for i in xrange(n):
+            if book[i]==0 and i!=left and i!=right:
+                tmps="."*(i)+"Q"+"."*(n-i-1)
+                tmp.append(tmps)
+                tmp2.append(tmps[::-1])
+                book[i]=1
+                booki.append(i)
+                self.dfs(n, book, booki, i, tmp, tmp2, res)
+                tmp.pop()
+                tmp2.pop()
+                book[i]=0
+                booki.pop()
+                
+    def checkBook(self, book):
+        for i in xrange(len(book)):
+            for j in xrange(len(book)):
+                if i!=j and abs(i-j)==abs(book[i]-book[j]):
+                    return False
+        return True
