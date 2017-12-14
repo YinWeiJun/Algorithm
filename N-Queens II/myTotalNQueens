@@ -1,0 +1,45 @@
+class Solution(object):
+    def totalNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        """
+        if n<4:
+            if n==1:
+                return 1
+            return 0
+        
+        i,res=0,[]
+        while i < (n+1)/2:
+            booki=[]
+            tmps1="."*(i)+"Q"+"."*(n-i-1)
+            tmps2=tmps1[::-1]
+            book=[0]*n
+            book[i]=1
+            booki.append(i)
+            self.dfs(n, book, booki, i, tmps1, tmps2, res)
+            i+=1
+        return sum(res)
+    
+    def dfs(self, n, book, booki, pos, tmps1, tmps2, res):
+        if sum(book)==n and self.checkBook(booki):
+            print booki
+            res.append(1)
+            if tmps2!=tmps1:
+                res.append(1)
+            print res
+        i,left,right=0,pos-1,pos+1
+        for i in xrange(n):
+            if book[i]==0 and i!=left and i!=right:
+                book[i]=1
+                booki.append(i)
+                self.dfs(n, book, booki, i, tmps1, tmps2, res)
+                book[i]=0
+                booki.pop()
+                
+    def checkBook(self, book):
+        for i in xrange(len(book)):
+            for j in xrange(i+1,len(book)):
+                if abs(i-j)==abs(book[i]-book[j]):
+                    return False
+        return True
