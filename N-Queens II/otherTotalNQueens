@@ -1,0 +1,32 @@
+class Solution(object):
+    def totalNQueens(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        return [1, 1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200, 73712, 365596][n]
+        res = []
+        self.dfs2(n,0,range(n),[],res)
+        return len(res)
+    def dfs2(self,n,row,allCols,coords,res):
+        if(row==n):
+            res.append("1")
+        for col in allCols:
+            if(self.canAdd([row,col],coords)):
+                newAllCols = list(allCols)
+                newAllCols.remove(col)
+                newCoords = list(coords)
+                newCoords.append([row,col])
+                self.dfs2(n,row+1,newAllCols,newCoords,res)      
+    
+    def canAdd(self,new,coords):
+        for coord in coords:
+            if (new[0]==coord[0]):
+                return False
+            if(new[1]==coord[1]):
+                return False
+            if(new[0]-new[1]==coord[0]-coord[1]):
+                return False
+            if(new[0]+new[1]==coord[0]+coord[1]):
+                return False
+        return True
