@@ -1,3 +1,4 @@
+#记录位置
 class Solution(object):
     def maxSubArray(self, nums):
         """
@@ -35,3 +36,29 @@ class Solution(object):
         #     return nums[tmpl:]
         # else:
         #     return nums[left:right]
+
+#只返回最大和
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums)==0:
+            return 0
+        elif len(nums)==1:
+            return nums[0]
+        
+        tmpSum=nums[0]
+        Sum=nums[0]
+        for i in xrange(1,len(nums)):
+            if nums[i]>(tmpSum+nums[i]):
+                if nums[i]<0 and tmpSum>Sum:
+                    Sum=tmpSum
+                tmpSum=nums[i]
+            else:
+                if nums[i]<0:
+                    if tmpSum>Sum:
+                        Sum=tmpSum
+                tmpSum+=nums[i]
+        return max(tmpSum, Sum)
