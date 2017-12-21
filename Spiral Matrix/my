@@ -1,0 +1,55 @@
+class Solution(object):
+    def spiralOrder(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[int]
+        :思想：顺时针遍历就好
+        """
+        if len(matrix)==0:
+            return []
+        lenR=len(matrix)
+        lenC=len(matrix[0])
+        res=[]
+        if lenR==1:
+            return matrix[0]
+        if lenC==1:
+            for i in xrange(lenR):
+                res.append(matrix[i][0])
+            return res
+        i=0
+        while lenR>1 and lenC>1:
+            self.get1(i, matrix, res)
+            self.get2(i, matrix, res)
+            self.get3(i, matrix, res)
+            self.get4(i, matrix, res)
+            lenR-=2
+            lenC-=2
+            i+=1
+        if lenR==1:
+            for j in xrange(lenC):
+                res.append(matrix[i][j+i])
+        elif lenC==1:
+            for j in xrange(lenR):
+                res.append(matrix[j+i][i])
+        return res
+        
+    def get1(self, i, matrix, res):
+        for j in xrange(i,len(matrix[0])-1-i):
+            res.append(matrix[i][j])
+    
+    def get2(self, i, matrix, res):
+        for j in xrange(i, len(matrix)-1-i):
+            res.append(matrix[j][len(matrix[0])-1-i])
+    
+    def get3(self, i, matrix, res):
+        jrange=range(i+1, len(matrix[0])-i)
+        jrange.reverse()
+        for j in jrange:
+            res.append(matrix[len(matrix)-1-i][j])
+    
+    def get4(self, i, matrix, res):
+        jrange=range(i+1,len(matrix)-i)
+        jrange.reverse()
+        print jrange
+        for j in jrange:
+            res.append(matrix[j][i])
