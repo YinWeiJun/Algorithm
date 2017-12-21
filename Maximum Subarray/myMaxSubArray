@@ -1,0 +1,37 @@
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        :思想：正序遍历，如果当前位置的值比当前位置与之前多个数的和大，则重新从当前位置开始记录
+        :不然，直接把当前位置加入到结果队列中，在每次队列变化时，判断当前的最大值是不是比之前记录的大，是：记录最大值
+        """
+        if len(nums)==0:
+            return 0
+        elif len(nums)==1:
+            return nums[0]
+        
+        tmpSum,tmpl,tmpr=nums[0],0,1
+        Sum,left,right=nums[0],0,1
+        for i in xrange(1,len(nums)):
+            if nums[i]>(tmpSum+nums[i]):
+                if nums[i]<0 and tmpSum>Sum:
+                    Sum=tmpSum
+                    left=tmpl
+                    right=tmpr
+                tmpl=i
+                tmpr=i+1
+                tmpSum=nums[i]
+            else:
+                if nums[i]<0:
+                    if tmpSum>Sum:
+                        Sum=tmpSum
+                        left=tmpl
+                        right=tmpr
+                tmpSum+=nums[i]
+                tmpr+=1
+        return max(tmpSum, Sum)
+        # if tmpSum>Sum:
+        #     return nums[tmpl:]
+        # else:
+        #     return nums[left:right]
