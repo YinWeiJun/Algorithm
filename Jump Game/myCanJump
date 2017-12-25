@@ -1,0 +1,22 @@
+class Solution(object):
+    def canJump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        :思想:类似最短跳跃数的思想
+        """
+        pos=0
+        while pos < len(nums)-1:
+            if nums[pos]==1:
+                pos+=1
+                continue
+            i, tmppos, tmpsum=pos+1,pos,0
+            while i<=len(nums)-1 and i<=nums[pos]+pos:
+                if nums[i]+i>tmpsum:
+                    tmpsum=nums[i]+i
+                    tmppos=i
+                i+=1
+            if tmppos==pos:
+                return False
+            pos=tmppos
+        return True
