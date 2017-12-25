@@ -3,7 +3,7 @@ class Solution(object):
         """
         :type nums: List[int]
         :rtype: bool
-        :思想:类似最短跳跃数的思想
+        :思想:类似最短跳跃数的思想，每次选择包含其他步数的位置
         """
         pos=0
         while pos < len(nums)-1:
