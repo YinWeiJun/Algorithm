@@ -1,0 +1,19 @@
+def sub_sort(array, low, high):
+ key=array[low]
+ pos=low
+ while low<high:
+  while low<high and array[high]>=key:
+   high-=1
+  while low<high and array[low]<=key:
+   low+=1
+  if low==high:
+   array[low],array[pos]=array[pos],array[low]
+   return low
+  else:
+   array[low],array[high]=array[high],array[low]
+   
+def quick_sort(array,low, high):
+ if low<high:
+  key_index=sub_sort(array,low,high)
+  quick_sort(array,low,key_index)
+  quick_sort(array,key_index+1,high)
