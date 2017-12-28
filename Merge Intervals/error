@@ -1,0 +1,65 @@
+# Definition for an interval.
+class Interval(object):
+    def __init__(self, s=0, e=0):
+        self.start = s
+        self.end = e
+
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        if len(intervals)<2:
+            return intervals
+        self.mergeTwo(intervals, 1)
+        return intervals
+         
+    
+    def mergeTwo(self, intervals, pos):
+        print '-----------------------------------------------------'
+        print "pos:",pos," intervals: ",self.intervals2str(intervals)
+        i=pos-1
+        while i>=0:
+            if intervals[pos].start<=intervals[i].end:
+                if intervals[pos].start>=intervals[i].start:
+                    tmp=Interval(intervals[i].start,max(intervals[i].end, intervals[pos].end))
+                    myintervals=[tmp]
+                    if len(intervals[0:i])!=0:
+                        myintervals+=intervals[0:i]
+                    if len(intervals[1:pos])!=0:
+                        myintervals+=intervals[1:pos]
+                    if len(intervals[pos+1:])!=0:
+                        myintervals+=intervals[pos+1:]
+                    pos+=1
+                    intervals=myintervals
+                    self.mergeTwo(intervals, pos)
+                    print '.............................................................'
+                    print "pos:",pos," intervals: ",self.intervals2str(intervals)
+                else:
+                    if intervals[pos].end>=intervals[i].start:
+                        tmp=Interval(intervals[pos].start,max(intervals[i].end, intervals[pos].end))
+                        myintervals=[tmp]
+                        if len(intervals[0:i])!=0:
+                            myintervals+=intervals[0:i]
+                        if len(intervals[1:pos])!=0:
+                            myintervals+=intervals[1:pos]
+                        if len(intervals[pos+1:])!=0:
+                            myintervals+=[intervals[pos+1:]]
+                        pos+=1
+                        intervals=myintervals
+                        self.mergeTwo(intervals, pos)
+                        print '.............................................................'
+                        print "pos:",pos," intervals: ",self.intervals2str(intervals)
+                    else:
+                        i-=1
+            else:
+                i-=1
+        print 'OK  ',self.intervals2str(intervals)
+        return intervals
+        
+    def intervals2str(self,intervals):
+        res=""
+        for val in intervals:
+            res+="["+str(val.start)+", "+str(val.end)+"] "
+        return res
