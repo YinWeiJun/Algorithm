@@ -1,0 +1,9 @@
+class Solution(object):
+    def lengthOfLastWord(self, s):
+        """
+        :type s: str
+        :rtype: int
+        :学习：strip（）去除字符收尾指定字符，默认为空字符
+        """
+        ss = s.strip().split(' ')
+        return len(ss[-1])
