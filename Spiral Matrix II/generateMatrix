@@ -1,0 +1,40 @@
+class Solution(object):
+    def generateMatrix(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        :思想：利用上下左右四个角的值控制遍历
+        """
+        if n==0:
+            return []
+        matrix = []
+        for i in xrange(n):
+            tmp=[0]*n
+            matrix.append(tmp)
+        value=1
+        direct = 0
+        up,left=0,0
+        down,right=n-1,n-1
+        while up<=down and left<=right:
+            if direct==0:
+                for i in range(left,right+1):
+                    matrix[up][i]=value
+                    value+=1
+                up+=1
+            elif direct==1:
+                for i in range(up,down+1):
+                    matrix[i][right]=value
+                    value+=1
+                right-=1
+            elif direct==2:
+                for i in range(left,right+1)[::-1]:
+                    matrix[down][i]=value
+                    value+=1           
+                down-=1
+            else:
+                for i in range(up,down+1)[::-1]:
+                    matrix[i][left]=value
+                    value+=1
+                left+=1
+            direct=(direct+1)%4
+        return matrix
