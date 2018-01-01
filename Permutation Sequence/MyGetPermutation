@@ -1,0 +1,35 @@
+class Solution(object):
+    def getPermutation(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        :思想：根据分别特征进行解答，如n=3，k=3
+        :n=3,一共2+2+2=6个。第一个2，以“1”开头，第二个2，以“2”开头，第三个2，以“3”开头
+        :k=3 >2 <4 所以第一个是“2”，第一个选择“2”，之后，后面的排序就是从2之后了，所以k-2=1，也就是“2”开头的第一个排序结果。
+        """   
+        if n==0 or k==0:
+            return ""
+        if n==1:
+            return '1'
+        book=[0]*(n)
+        res,tmpn,tmpk="",n,k
+        while sum(book)<n:
+            f=math.factorial(tmpn-1)
+            nth=tmpk/f
+            if tmpk%f==0:
+                nth-=1
+            tmp=0
+            for i in xrange(n):
+                if book[i]==0:
+                    if sum(book)==n-1:
+                        res+=str(i+1)
+                        return res                                                                        
+                    tmp+=1
+                    if tmp==nth+1:
+                        res+=str(i+1)
+                        book[i]=1
+                        tmpk-=f*nth                        
+                        tmpn-=1
+                        break
+        return res
