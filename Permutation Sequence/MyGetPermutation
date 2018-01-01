@@ -33,3 +33,29 @@ class Solution(object):
                         tmpn-=1
                         break
         return res
+        
+
+class Solution(object):
+    def getPermutation(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        :思想：同上道理，通过source存储还没有考虑的字符，进而根据nth直接获取对应字符，减少了循环遍历
+        """   
+        if n==0 or k==0:
+            return ""
+        if n==1:
+            return '1'
+        source=[str(x) for x in xrange(1,n+1)]
+        res,tmpn,tmpk="",n,k
+        while tmpn>0:
+            f=math.factorial(tmpn-1)
+            nth=tmpk/f
+            if tmpk%f==0:
+                nth-=1
+            res+=source[nth]
+            source=source[0:nth]+source[nth+1:]
+            tmpk-=f*nth                        
+            tmpn-=1    
+        return res
