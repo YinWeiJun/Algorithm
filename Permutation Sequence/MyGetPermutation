@@ -45,8 +45,6 @@ class Solution(object):
         """   
         if n==0 or k==0:
             return ""
-        if n==1:
-            return '1'
         source=[str(x) for x in xrange(1,n+1)]
         res,tmpn,tmpk="",n,k
         while tmpn>0:
