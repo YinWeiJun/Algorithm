@@ -1,0 +1,35 @@
+class Solution(object):
+    def uniquePaths(self, m, n):
+        """
+        :type m: int
+        :type n: int
+        :rtype: int
+        :思想：递归+字典
+        """
+        book={}
+        return self.myUniquePaths(max(m,n), min(m,n),book)
+        
+    def myUniquePaths(self,m,n,book):
+        print '------------------------------------------------------------'
+        print book
+        print 'm:',m,'n:',n
+        if n==1 or m==1:
+            return 1
+        elif n==2 or m==2:
+            return max(n,m)
+        elif str(m)+','+str(n) in book:
+            return book[str(m)+','+str(n)]
+        else:
+            n1,n2=0,0
+            if m==n:
+                n1=self.myUniquePaths(n, m-1, book)
+                book[str(n)+','+str(m-1)]=n1
+                book[str(m)+','+str(n)]=n1+n1
+                return n1*2
+            else:
+                n1=self.myUniquePaths(m-1, n, book)
+                n2=self.myUniquePaths(m, n-1, book)
+                book[str(m-1)+','+str(n)]=n1
+                book[str(m)+','+str(n-1)]=n2
+                book[str(m)+','+str(n)]=n1+n2
+                return n1+n2
