@@ -1,0 +1,50 @@
+class Solution(object):
+    def fullJustify(self, words, maxWidth):
+        """
+        :type words: List[str]
+        :type maxWidth: int
+        :rtype: List[str]
+        :思想：直接讲数组转换为带有空格的字符串，然后去选取长度
+        """
+        if maxWidth==0:
+            return [""]
+        elif len(words)==1 and words[0]=="":
+            return [" "*maxWidth]
+        res=[]
+        allStr="".join(str(i)+" " for i in words)[:-1]
+        i,j,l=0,maxWidth,len(allStr)
+        while i<l:
+            while i<l and allStr[i]==" ":
+                i+=1
+            j=i+maxWidth
+            while j<l and allStr[j-1]!=" " and allStr[j]!=" ":
+                j-=1
+            if j>=l-1:
+                res.append(allStr[i:]+" "*(maxWidth-len(allStr[i:])))
+                return res
+            tmpStr=allStr[i:j]
+            print tmpStr
+            if len(tmpStr.strip())==0:
+                i=j
+                continue
+            n=len(tmpStr)-len(tmpStr.strip())+(maxWidth-len(tmpStr))
+            if n==0:
+                res.append(tmpStr)
+                i=j
+                continue
+            tmpWords=(tmpStr.strip().split(" "))
+            m=len(tmpWords)
+            if m==1:
+                res.append(tmpWords[0]+" "*(maxWidth-len(tmpWords[0])))
+            else:
+                a=n/(m-1)
+                b=n%(m-1)
+                if b==0:
+                    res.append(tmpWords[0]+("".join(' '*(a+1)+tmpWords[i] for i in xrange(1,m))))
+                else:
+                    res.append(tmpWords[0]+("".join(' '*(a+2)+tmpWords[i] for i in xrange(1,b+1)))+("".join(' '*(a+1)+tmpWords[j] for j in xrange(b+1,m))))
+                print res
+            i=j
+            while i<l and allStr[i]==" ":
+                i+=1  
+        return res
