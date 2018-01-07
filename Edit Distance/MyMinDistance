@@ -1,0 +1,23 @@
+class Solution(object):
+    def minDistance(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        :思想：用dp矩阵记录word1和word2不同个数的最小步骤，如dp[0][0]=0表示，word1=word2="",所以不用Edit
+        :dp[0][j]=j，表示word1="",word2="....."(j个字母),一定需要j步，同理dp[i][0]=i
+        :那么只用去判断dp[i][j]怎么计算，dp[i][j],可以是word1去掉一个字母，即dp[i-1][j]+1
+        :或者dp[i][j-1]+1,再者dp[i-1][j-1]+1(如果word1[i-1]!=word2[j-1]),如dp[1][1],word1和word2只有一个字母
+        :如果word1[0]!=word2[0],dp[1][1]=dp[0][0]+1,否则，dp[1][1]=dp[0][0]
+        :所以，只用用三种情况中的最小的表示就可以了
+        """
+        l1, l2 = len(word1)+1, len(word2)+1
+        dp = [[0 for _ in xrange(l2)] for _ in xrange(l1)]
+        for i in xrange(l1):
+            dp[i][0] = i
+        for j in xrange(l2):
+            dp[0][j] = j
+        for i in xrange(1, l1):
+            for j in xrange(1, l2):
+                dp[i][j] = min(dp[i-1][j]+1, dp[i][j-1]+1, dp[i-1][j-1]+(word1[i-1]!=word2[j-1]))
+        return dp[-1][-1]
