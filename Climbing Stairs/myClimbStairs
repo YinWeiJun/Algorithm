@@ -1,0 +1,15 @@
+class Solution(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        book = [0,1,2]
+        if n < len(book):
+            return book[n]
+        else:
+            i = 3
+            while i < n :
+                book.append(book[i-1] + book[i-2])
+                i+=1
+            return book[n-1] + book[n-2]
