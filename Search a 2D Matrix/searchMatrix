@@ -1,0 +1,44 @@
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if not matrix:
+            return False
+        if not matrix[0]:
+            return False
+        
+        row = matrix[self.searchRow(matrix, target)]
+        low = 0
+        high = len(row)
+        
+        while (high - low) > 1:
+            index = (low + high) / 2
+            if row[index] > target:
+                high = index
+            elif row[index] <= target:
+                low = index
+        if row[low] == target or (high < len(row) and row[high] == target):
+            return True
+        return False
+        
+    
+    def searchRow(self, matrix, target):
+        rows = len(matrix)
+        low = 0
+        high = rows
+        
+        while (high - low) > 1:
+            index = (low + high) / 2
+            if matrix[index][0] > target:
+                high = index
+            elif matrix[index][0] <= target:
+                low = index
+        
+        if high < len(matrix) and matrix[high][0] <= target:
+            return high
+        else:
+            return low
+        
