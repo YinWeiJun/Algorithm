@@ -7,3 +7,30 @@ class Solution(object):
         """
         l = list(xrange(1, n + 1))
         return list(itertools.combinations(l, k))
+
+--------------------------------------------------------------
+
+class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        # set of all subset, but at level x, take too long to compute if go down the level
+        base = [i+1 for i in range(n)]
+        returnV = []
+        def dfs(partial, x, start):
+            # assume end-start+1 >= x
+            if x == 0:
+                returnV.append(partial[:])
+                return
+            if x == (n-start):
+                returnV.append(partial+base[start:])
+                return
+            # append to partial
+            for i in range(start,n-x+1):
+                partial.append(base[i])
+                dfs(partial, x-1, i+1)
+                partial.pop()
+        dfs([],k,0)
