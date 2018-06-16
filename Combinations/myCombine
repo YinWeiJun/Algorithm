@@ -1,0 +1,27 @@
+import copy
+class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        :思想：借鉴全排列的深度优先遍历，只是在全排列的要求上加上有序排列不重复
+        """
+        
+        res = []
+        for i in xrange(1, n-k+2):
+            tmp=[i]
+            self.dfs(res, tmp, n, k)
+        return res
+        
+    def dfs(self, res, tmp, n, k):
+        if len(tmp) == k:
+            t = copy.deepcopy(tmp)
+            res.append(t)
+            return
+        if ((k - len(tmp)) > (n - tmp[-1])):
+            return
+        for i in xrange(tmp[-1]+1, n+1):
+            tmp.append(i)
+            self.dfs(res, tmp, n, k)
+            tmp.pop()
