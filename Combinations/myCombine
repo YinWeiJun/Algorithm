@@ -25,3 +25,32 @@ class Solution(object):
             tmp.append(i)
             self.dfs(res, tmp, n, k)
             tmp.pop()
+
+----------------------------------------------------------------
+
+import copy
+class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        res = [[]]
+        for i in xrange(1, n-k+2):
+            res[-1] = [i]
+            self.dfs(res, n, k)
+        res.pop()
+        return res
+        
+    def dfs(self, res, n, k):
+        if len(res[-1]) == k:
+            tmp = copy.deepcopy(res[-1])
+            res.append(tmp)
+            return
+        if ((k - len(res[-1])) > (n - res[-1][-1])):
+            return
+        for i in xrange(res[-1][-1]+1, n+1):
+            res[-1].append(i)
+            self.dfs(res, n, k)
+            res[-1].pop()
