@@ -16,8 +16,11 @@ class Solution(object):
         
     def dfs(self, res, tmp, n, k):
         if len(tmp) == k:
-            t = copy.deepcopy(tmp)
-            res.append(t)
+            #方案一
+            # t = copy.deepcopy(tmp)
+            # res.append(t)
+            #方案二(方案二不是res.append(tmp),而是tmp[:],这样res[-1]与tmp就不是一个地址，放着tmp改动影响
+            res.append(tmp[:])
             return
         if ((k - len(tmp)) > (n - tmp[-1])):
             return
