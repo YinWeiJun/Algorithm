@@ -1,0 +1,58 @@
+class Solution:
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        if not word:
+            return True
+        if not board:
+            return False
+        tmp_word = "".join(list(set(list(word))))
+        proj_dict = self.search_dict(board, tmp_word)
+        if len(proj_dict) < len(tmp_word):
+            return False
+        targets = proj_dict[word[0]]
+        ret = [False]
+        for i in range(len(targets)):
+            target = targets[i]
+        #for target in targets:
+            if ret[0] == True:
+                break
+            proj_dict[word[0]].remove(target)
+            #print("=============================================")
+            self.dfs(len(board[0]), proj_dict, word, 1, target, ret)
+            proj_dict[word[0]].insert(i, target)
+        return ret[0]
+        
+    # 深度遍历判断是否有满足条件的字符组合
+    def dfs(self, n_c, proj_dict, word, n, target, ret):
+        #print(proj_dict)
+        if ret[0] or n == len(word):
+            ret[0] = True
+            return True
+        elif not proj_dict[word[n]]:
+            ret[0] = False
+            return False
+        for i in range(len(proj_dict[word[n]])):
+            pos = proj_dict[word[n]][i]
+        #for pos in proj_dict[word[n]]:
+            if abs(pos - target) == n_c or (abs(pos - target) == 1 and min(pos, target) % n_c):
+                proj_dict[word[n]].remove(pos)
+                self.dfs(n_c, proj_dict, word, n+1, pos, ret)
+                proj_dict[word[n]].insert(i, pos)
+                
+    # 由于查询较多，所以采用dict存储字符在二维数组中的位置
+    def search_dict(self, board, word):
+        proj_dict = {}
+        for i in range(len(board)):
+            for j in range(len(board[i])):
+                if board[i][j] in word:
+                    if board[i][j] in proj_dict:
+                        proj_dict[board[i][j]].append((i)*len(board[0]) + (j+1))
+                    else:
+                        proj_dict[board[i][j]] = [(i)*len(board[0]) + (j+1)]
+        return proj_dict
+                        
+                
