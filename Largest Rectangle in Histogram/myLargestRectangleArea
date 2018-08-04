@@ -37,7 +37,57 @@ class Solution:
             self.area_min_height(heights, pos[-1]+1, r, area)
          
 
+class Solution:
+    def largestRectangleArea(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        area = [0]
+        pos = self.get_pos(heights)
+        self.area_min_height(heights, 0, len(heights)-1, pos, area)
+        return area[0]
         
         
+    def area_min_height(self, heights, l, r, pos, area):
+        if (not heights) or (l > r):
+            return 0
+        
+        min_height = heights[l]
+        if r > l:
+            min_height = min(heights[l:r+1])
+        
+        area[0] = max(area[0], min_height*(r-l+1))
+        
+        index = pos[min_height]
+        index.sort()
+        while index and index[0] < l:
+            del index[0]
+        last = -1
+        if index:
+            if index[0] >= l and index[0] <= r:
+                print(l,index[0]-1)
+                last = index[0]
+                self.area_min_height(heights, l, index[0]-1, pos, area)
+            for i in range(1, len(index)):
+                if index[i] < r:
+                    last = index[i]
+                if index[i-1] >= l and index[i] <= r and index[i-1] + 1 <= index[i]-1:
+                    self.area_min_height(heights, index[i-1]+1, index[i]-1, pos, area)
+            if last != -1:
+                self.area_min_height(heights, last+1, r, pos, area)
+    
+    
+    def get_pos(self, heights):
+        pos = {}
+        for i in range(len(heights)):
+            height = heights[i]
+            if height in pos:
+                pos[height].append(i)
+            else:
+                pos[height] = [i]
+        return pos
+        
+            
             
             
