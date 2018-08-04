@@ -1,0 +1,43 @@
+class Solution:
+    def largestRectangleArea(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        area = [0]
+        self.area_min_height(heights, 0, len(heights)-1, area)
+        return area[0]
+        
+    def area_min_height(self, heights, l, r, area):
+        #print('---------%d--------------%d---------' % (l, r))
+        if not heights:
+            return area[0]
+        minh, pos = heights[l], [l]
+        length, low = r - l + 1, l
+        l += 1
+        while l <= r:
+            height = heights[l]
+            if height < minh:
+                minh = height
+                pos = [l]
+            elif height == minh:
+                pos.append(l)
+            l += 1
+        #print(minh, pos)
+        #print(area[0], minh * length)
+        area[0] = max(area[0], minh * length)
+        #print(area[0])
+        if not pos:
+            return area[0]
+        if pos[0] > low:
+            self.area_min_height(heights, low, pos[0]-1, area)
+        for i in range(1, len(pos)):
+            self.area_min_height(heights, pos[i-1]+1, pos[i]-1, area)
+        if pos[-1] < r:
+            self.area_min_height(heights, pos[-1]+1, r, area)
+         
+
+        
+        
+            
+            
