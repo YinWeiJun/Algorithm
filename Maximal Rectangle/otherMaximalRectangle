@@ -1,0 +1,32 @@
+class Solution:
+    def maximalRectangle(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        if not matrix or not matrix[0]:
+            return 0
+
+        nums = [int(''.join(row), base=2) for row in matrix]
+        # print(nums)
+
+        max_area = 0
+        for i in range(len(nums)):
+            j = i
+            num = nums[i]
+            while j < len(nums):
+                # print(num, nums[j])
+                num = num & nums[j]
+                if num == 0:
+                    break
+                cur_num = num
+                l = 0
+                # print i,j,cur_num
+                while cur_num != 0:
+                    l += 1
+                    cur_num = cur_num & (cur_num << 1)
+                    # print(cur_num)
+                max_area = max(max_area, l * (j - i + 1))
+                j += 1
+
+        return max_area
