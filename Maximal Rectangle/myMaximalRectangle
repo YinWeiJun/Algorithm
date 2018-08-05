@@ -1,0 +1,41 @@
+class Solution:
+    def maximalRectangle(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        if not matrix:
+            return 0
+        ret = [0]
+        sign = {}
+        self.dfs(matrix, 0, len(matrix)-1, 0, len(matrix[0])-1, sign, ret)
+        return ret[0]
+    
+    def dfs(self, matrix, min_i, max_i, min_j, max_j, sign, ret):
+        if min_i < 0 or max_i >= len(matrix) or min_j < 0 or max_j >= len(matrix[0]):
+            return 0
+        if min_i > max_i or min_j > max_j:
+            return 0
+        pos = (str(min_i)+str(max_i)+str(min_j)+str(max_j))
+        #print("=======================")
+        #print(pos)
+        #print(sign)
+        if pos in sign:
+            return 1
+        else:
+            sign[pos] = 1
+        all_is_1 = True
+        for i in range(min_i, max_i+1):
+            for j in range(min_j, max_j+1):
+                if matrix[i][j] == "0":
+                    all_is_1 = False
+                    self.dfs(matrix, min_i, i-1, min_j, max_j, sign, ret)
+                    self.dfs(matrix, i+1, max_i, min_j, max_j, sign, ret)
+                    self.dfs(matrix, min_i, max_i, min_j, j-1, sign, ret)
+                    self.dfs(matrix, min_i, max_i, j+1, max_j, sign, ret)
+                    break
+            if not all_is_1:
+                break
+        if all_is_1:
+            ret[0] = max(ret[0], (max_i-min_i+1)*(max_j-min_j+1))
+        
