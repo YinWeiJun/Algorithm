@@ -1,0 +1,10 @@
+class Solution:
+    def grayCode(self, n):
+        """
+        :type n: int
+        :rtype: List[int]
+        """        
+        dp = [0]
+        for i in range(n):
+            dp.extend([x|(1<<i) for x in reversed(dp)])
+        return dp
