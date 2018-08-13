@@ -1,0 +1,18 @@
+class Solution:
+    def subsetsWithDup(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        def backtrack(results, temp_result, nums, index):
+            results.append(temp_result.copy())
+            for i in range(index, len(nums)):
+                if i > index and nums[i] == nums[i - 1]:
+                    continue
+                temp_result.append(nums[i])
+                backtrack(results, temp_result, nums, i + 1)
+                temp_result.pop()
+        nums = sorted(nums)
+        l = []
+        backtrack(l, [], nums, 0)
+        return l
