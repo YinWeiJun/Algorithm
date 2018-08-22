@@ -1,0 +1,31 @@
+class Solution:
+    def restoreIpAddresses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        ret = []
+        tmp = [""]
+        self.dfs(s, 0, 0, tmp, ret)
+        return ret
+        
+
+    def dfs(self, s, pos, n, tmp, ret):
+        if n == 4:
+            if pos == len(s):
+                ret.append(tmp[0][:-1])
+                return 1
+            else:
+                return 0
+        if 3*(4-n) < len(s)-pos or pos >= len(s):
+            return 0
+        s_tmp = tmp[0]
+        if 0 <= int(s[pos]) <= 255:
+            tmp[0] = s_tmp + s[pos] + "."
+            self.dfs(s, pos+1, n+1, tmp, ret)
+        if s[pos] != "0" and 0 < int(s[pos:pos+2]) <= 255:
+            tmp[0] = s_tmp + s[pos:pos+2] + "."
+            self.dfs(s, pos+2, n+1, tmp, ret)
+        if s[pos] != "0" and 0 < int(s[pos:pos+3]) <= 255:
+            tmp[0] = s_tmp + s[pos:pos+3] + "."
+            self.dfs(s, pos+3, n+1, tmp, ret)
