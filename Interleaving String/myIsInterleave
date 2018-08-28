@@ -1,0 +1,49 @@
+class Solution:
+    def isInterleave(self, s1, s2, s3):
+        """
+        :type s1: str
+        :type s2: str
+        :type s3: str
+        :rtype: bool
+        """
+        if (len(s1)+len(s2)>len(s3)):
+            return False
+        ret = [True]
+        i, j, k = 0, 0, 0
+        self.search(s1, s2, s3, i, j, k, ret)
+        return ret[0]
+        
+        
+    def search(self, s1, s2, s3, i, j, k, ret):
+        #print("---i: %d---j: %d----k: %d---" % (i, j, k))
+        if not ret[0]:
+            return False
+        if k >= len(s3):
+            return ret[0]
+        S1, S2 = False, False
+        if i < len(s1):
+            S1 = (s1[i] == s3[k])
+        if j < len(s2):
+            S2 = (s2[j] == s3[k])
+        if S1 and (not S2):
+            #print('111\n')
+            self.search(s1, s2, s3, i+1, j, k+1, ret)
+        elif (not S1) and S2:
+            #print('222\n')
+            self.search(s1, s2, s3, i, j+1, k+1, ret)
+        elif S1 and S2:
+            #print('333\n')
+            tmpi = [True]
+            self.search(s1, s2, s3, i+1, j, k+1, tmpi)
+            if tmpi[0]:
+                ret[0] = tmpi[0]
+                return True
+            tmpj = [True]
+            self.search(s1, s2, s3, i, j+1, k+1, tmpj)
+            if tmpj[0]:
+                ret[0] = tmpj[0]
+                return True
+            ret[0] = tmpi[0] or tmpj[0]
+        else:
+            ret[0] = False
+            return False
