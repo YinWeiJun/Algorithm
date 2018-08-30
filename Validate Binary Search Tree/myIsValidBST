@@ -1,0 +1,26 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        return self.dfs(root, -1, -1)
+        
+    def dfs(self, root, minv, maxv):
+        if not root:
+            return True
+        left = root.left
+        right = root.right
+        if minv == -1 == maxv or (minv == -1 and root.val < maxv) or (maxv == -1 and root.val > minv) or minv < root.val < maxv:
+            return self.dfs(left, minv, root.val) and self.dfs(right, root.val, maxv)
+        else:
+            return False
