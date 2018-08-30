@@ -1,0 +1,81 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def # Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def recoverTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        cur = root
+        
+        start = end = None
+        
+        stack = []
+        result = []
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            
+            cur = stack.pop()
+            if result: 
+                if start is None and cur.val < result[-1].val:
+                    start = result[-1]
+                if start and cur.val > start.val:
+                    end = result[-1]
+                    start.val, end.val = end.val, start.val
+                    return 
+                
+            result.append(cur)
+            cur = cur.right
+        
+        if end is None:
+            end = result[-1]
+            start.val, end.val = end.val, start.val
+        
+        return (self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        cur = root
+        
+        start = end = None
+        
+        stack = []
+        result = []
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            
+            cur = stack.pop()
+            if result: 
+                if start is None and cur.val < result[-1].val:
+                    start = result[-1]
+                if start and cur.val > start.val:
+                    end = result[-1]
+                    start.val, end.val = end.val, start.val
+                    return 
+                
+            result.append(cur)
+            cur = cur.right
+        
+        if end is None:
+            end = result[-1]
+            start.val, end.val = end.val, start.val
+        
+        return 
