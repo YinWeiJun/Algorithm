@@ -1,0 +1,20 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# 深度很容易想到递归的深度遍历，但是不要只想到对树进行遍历
+# 问题本身也是递归问题，不要因为熟悉遍历的递归，而忘了问题的本身
+class Solution:
+    def maxDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if root is None:
+            return 0
+        dLeft = self.maxDepth(root.left) + 1
+        dRight = self.maxDepth(root.right) + 1
+        return max(dLeft, dRight)
