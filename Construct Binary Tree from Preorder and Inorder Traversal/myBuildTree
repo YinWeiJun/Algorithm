@@ -1,0 +1,29 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# 分析前序和中序遍历的特点不难发现，前序的第一个一定是头结点，中序的头结点两侧一定是左右树
+# 两个特点结合，左右树也是树，只要找到对应的preorder和inorder，利用递归就可以了
+# 学习： 只要是树的问题都可以思考递归方法
+class Solution:
+    def buildTree(self, preorder, inorder):
+        """
+        :type preorder: List[int]
+        :type inorder: List[int]
+        :rtype: TreeNode
+        """
+        if not preorder or not inorder:
+            return None
+        root_val = preorder[0]
+        root = TreeNode(root_val)
+        index_root_val = inorder.index(root_val)
+        if index_root_val > 0:
+            left_tree = self.buildTree(preorder[1:index_root_val + 1], inorder[0:index_root_val])
+            root.left = left_tree
+        if index_root_val < len(inorder) - 1:
+            right_tree = self.buildTree(preorder[index_root_val + 1:], inorder[index_root_val + 1:])
+            root.right = right_tree
+        return root
