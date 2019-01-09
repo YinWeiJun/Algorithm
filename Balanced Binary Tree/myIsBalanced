@@ -1,0 +1,34 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# 判断一颗二叉树是否平衡，只用判断左右子树本身是否平和，且左右子树的深度差不大于1
+# 所以采用递归思想进行，本方法在递归中返回自身深度，防止重复遍历
+
+class Solution:
+    def isBalanced(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        b, d = self.dfs(root)
+        return b
+        
+            
+    def dfs(self, root):
+        if not root:
+            return True, 0
+        b_l, d_l = self.dfs(root.left)
+        b_r, d_r = self.dfs(root.right)
+        if not (b_l and b_r):
+            return False, -1
+        if abs(d_l - d_r) > 1:
+            return False, -1
+        return True, max(d_l, d_r) + 1
+
+        
