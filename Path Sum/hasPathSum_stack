@@ -1,0 +1,23 @@
+# 题目涉及路径，所以深度遍历肯定比广度遍历好
+# 深度遍历中递归的方法空间复杂度太高，所以采用堆栈的方式实现深度遍历
+
+class Solution:
+    def hasPathSum(self, root, sum):
+        """
+        :type root: TreeNode
+        :type sum: int
+        :rtype: bool
+        """
+        if not root:
+            return False
+
+        de = [(root, sum - root.val), ]
+        while de:
+            node, curr_sum = de.pop()
+            if not node.left and not node.right and curr_sum == 0:  
+                return True
+            if node.right:
+                de.append((node.right, curr_sum - node.right.val))
+            if node.left:
+                de.append((node.left, curr_sum - node.left.val))
+        return False
