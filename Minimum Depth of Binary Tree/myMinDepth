@@ -1,0 +1,31 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# 通过广度遍历，当遇到节点同时没有左右节点是，结束遍历，返回当前深度
+
+class Solution:
+    def minDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        depth = 0
+        if not root:
+            return depth
+        nodeList = [root]
+        while nodeList[0]:
+            tmp_nodeList = nodeList[:]
+            nodeList = []
+            depth = depth + 1
+            for node in tmp_nodeList:
+                if not node.left and not node.right:
+                    return depth
+                if node.left:
+                    nodeList.append(node.left)
+                if node.right:
+                    nodeList.append(node.right)
+        return depth
