@@ -5,6 +5,8 @@
 #         self.left = None
 #         self.right = None
 
+# 树的路径问题，很容易想到深度遍历，注意在递归的过程中对路径的记录，tmp[:]等同于deepcopy
+
 class Solution:
     def pathSum(self, root, sum):
         """
