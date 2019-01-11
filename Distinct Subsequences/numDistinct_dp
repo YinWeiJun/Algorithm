@@ -13,6 +13,11 @@
 所以dp方程式为：dp[i][j] = dp[i][j-1] + dp[i-1][i-j] * (T[i] == S[j])（dp[i][j-1]对应绿色方格，dp[i-1][i-j]对应黄色方格）。
 
 
+一维递归问题，可以通过堆栈、队列来实现
+二维的递归问题，可以思考通过二维数组进行实现，减少复杂度
+numDistinct(s, t) = numDistinct(s[1:], t) + numDistinct(s[1:], t[1:]) * (s[0] == t[0])
+
+
 
 class Solution:
     def numDistinct(self, s, t):
