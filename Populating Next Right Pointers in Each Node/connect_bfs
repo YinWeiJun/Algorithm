@@ -6,6 +6,9 @@
 #         self.right = None
 #         self.next = None
 
+# 问题其实是从左至右建立同一层节点之间的链接关系，深度遍历显然不合适
+# 所以采用广度遍历，用数组从左往右记录同一层节点，之后建立链接关系即可
+
 class Solution:
     # @param root, a tree link node
     # @return nothing
