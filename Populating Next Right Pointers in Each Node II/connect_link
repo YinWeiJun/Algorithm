@@ -1,0 +1,39 @@
+# Definition for binary tree with next pointer.
+# class TreeLinkNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#         self.next = None
+
+# 巧妙通过指针的方式记录特定位置，在链表和树等结构中往往能够减少空间复杂度
+# curr代表当前节点，由于访问前已经建立next，所以通过next进行同层节点访问
+# head记录curr所在层的下一层的第一个节点位置，pre记录curr的左节点或者右节点的前序同层节点，
+# 如果为空，则代表当前的是该层第一个节点，将pre赋值就好，然后每次有新的同层节点出现时，pre.next = node  pre = pre.next
+# 由于所有节点的初始next为None，所以当没有节点是，pre.next = None显然成立
+
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if not root:
+            return
+        head, prev = None, None
+        curr = root
+        while curr:
+            while curr:
+                if curr.left:
+                    if prev:
+                        prev.next = curr.left
+                    else:
+                        head = curr.left
+                    prev = curr.left
+                if curr.right:
+                    if prev:
+                        prev.next = curr.right
+                    else:
+                        head = curr.right
+                    prev = curr.right
+                curr = curr.next
+            curr = head
+            head, prev = None, None
