@@ -1,0 +1,22 @@
+class Solution(object):
+    def minimumTotal(self, triangle):
+        """
+        :type triangle: List[List[int]]
+        :rtype: int
+        """
+        if not triangle:
+            return 0
+        res, tmp = [0], [0]
+        for datas in triangle:
+            res[0] = res[0] + datas[0]
+        self.dfs(triangle, 0, 0, res, tmp)
+        return res[0]
+
+    def dfs(self, triangle, i, j, res, tmp):
+        if i == len(triangle):
+            res[0] = min(res[0], tmp[0])
+            return -1
+        tmp[0] = tmp[0] + triangle[i][j]
+        left, right = j, j+1
+        self.dfs(triangle, i+1, left, res, tmp[:])
+        self.dfs(triangle, i+1, right, res, tmp[:])
