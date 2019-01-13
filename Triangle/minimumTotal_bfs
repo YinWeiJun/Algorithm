@@ -1,0 +1,23 @@
+# 广度遍历，遍历每层的每个元素时，记录能到达该点的最小路径(res)
+# 如：当遍历triangle[i][j]时候，只有triangle[i-1][j-1]与triangle[i-1][j]能够到达
+# 所以res[i][j] = triangle[i][j] + min(res[i-1][j-1], res[i-1][j])
+# ps: 保证在i-1层，序号j-1和j存在
+
+class Solution(object):
+    def minimumTotal(self, triangle):
+        """
+        :type triangle: List[List[int]]
+        :rtype: int
+        """
+        if not triangle:
+            return 0
+        res = [triangle[0][0]]
+        for i in range(1, len(triangle)):
+            datas = triangle[i]
+            tmp = [0] * len(datas)
+            tmp[0] = res[0] + datas[0]
+            for j in range(1, len(datas)-1):
+                tmp[j] = datas[j] + min(res[j-1], res[j])
+            tmp[-1] = datas[-1] + res[-1]
+            res = tmp[:]
+        return min(res)
