@@ -1,0 +1,60 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# 思路：由最底层开始，从下往上寻找最大路径和，并将节点值改为该节点到其子节点的最大路径和（包含单个节点本身）
+
+class Solution(object):
+    def maxPathSum(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return None
+        maxSum = root.val
+        cells = self.traverse(root)
+        while cells:
+            cell = cells[-1]
+            for node in cell:
+                (max_path, standby_path) = self.maxNode(node)
+                node.val =  standby_path
+                maxSum = max(max_path, maxSum)
+            cells.pop()
+        return maxSum        
+        
+    def traverse(self, root):
+        if not root:
+            return []
+        cells = [[root]]
+        tmp = [root]
+        while tmp:
+            cell = []
+            for node in tmp:
+                if node.left:
+                    cell.append(node.left)
+                if node.right:
+                    cell.append(node.right)
+            if cell:
+                cells.append(cell)
+            tmp = cell[:]
+        return cells
+            
+    def maxNode(self, node):
+        if not node:
+            return  None, None
+        max_path, standby_path = node.val, node.val
+        max_node_val = node.val
+        if node.left:
+            max_node_val = max(max_node_val, node.left.val)
+            standby_path = max(node.val, node.val+node.left.val)
+        if node.right:
+            max_node_val = max(max_node_val, node.right.val)
+            standby_path = max(standby_path, node.val+node.right.val)
+        max_path = max(max_node_val, standby_path)
+        if node.left and node.right:
+            max_path = max(max_path, node.val+node.left.val+node.right.val)
+        return max_path, standby_path
