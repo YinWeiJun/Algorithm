@@ -1,0 +1,55 @@
+# 思路：1.从beginWords开始，寻找wordList中满足beginWord只改变一个字符可能得到的字符串
+# 2.然后遍历beginWords可以得到的字符串数组，在wordList中寻找数组中只改变一个字符可以得到到字符串
+# 重复2过程，直到出现endWord
+
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
+        if endWord not in wordList:
+            return 0
+        try:
+            wordList.remove(beginWord)
+        except:
+            pass
+        tmp, find = [1], [0]
+        ids = []
+        for i in range(len(beginWord)):
+            ids.append(i)
+        self.recursion([beginWord], endWord, wordList, ids, tmp, find)
+        return tmp[0] * find[0]
+            
+    def recursion(self, beginWords, endWord, wordList, ids, tmp, find):
+        words_all = []
+        tmp[0] += 1
+        for beginWord in beginWords:
+            for i in ids:
+                words = self.findChangeOne(beginWord, i, wordList)
+                if not words:
+                    continue
+                if endWord in words:
+                    find[0] = 1
+                    return 1
+                for word in words:
+                    wordList.remove(word)
+                words_all += words
+        print(words_all)
+        words_all = list(set(words_all))
+        if words_all:
+            self.recursion(words_all, endWord, wordList, ids, tmp, find)
+        
+        
+    def findChangeOne(self, word, i, wordList):
+        words = []
+        s = word[:i]+"."+word[i+1:]
+        for w in wordList:
+            r = re.match(s, w)
+            if r == None:
+                continue
+            words.append(w)
+        return words
+        
