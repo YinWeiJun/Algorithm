@@ -1,0 +1,73 @@
+# 思路：从beginWord开始，在wordList中寻找beginWord只改变一个字符可以得到到结果
+# 然后用得到的结果进行递归
+
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
+        if endWord not in wordList:
+            return 0
+        try:
+            wordList.remove(beginWord)
+        except:
+            pass
+        tmp, res = [1], [0]
+        ids = []
+        for i in range(len(beginWord)):
+            ids.append(i)
+        self.recursion(beginWord, endWord, wordList, -1, ids, tmp, res)
+        return res[0]
+            
+    def recursion(self, beginWord, endWord, wordList, i, ids, tmp, res):
+        # print("-------------------------------")
+        # print("beginWord:  ", beginWord)
+        # print("endWord:   ", endWord)
+        # print("wordList:  ", wordList)
+        # print("ids:   ", ids)
+        # print("tmp:   ", tmp[0])
+        # print("res:   ", res[0])
+        if endWord not in wordList:
+            return 0
+        ids_tmp = ids[:]
+        try:
+            ids_tmp.remove(i)
+        except:
+            pass
+        words_d = {}
+        for i in ids_tmp:
+            words = self.findChangeOne(beginWord, i, wordList)
+            if not words:
+                continue
+            if endWord in words:
+                tmp[0] += 1
+                if res[0] == 0:
+                    res[0] = tmp[0]
+                else:
+                    res[0] = min(tmp[0], res[0])
+                return 1
+            words_d[i] = words
+        for i in words_d:
+            words = words_d[i]
+            for w in words:
+                wordList.remove(w)
+            for w in words:
+                wordList_tmp = wordList[:]
+                tmp[0] += 1
+                self.recursion(w, endWord, wordList_tmp, i, ids, tmp[:], res)
+                tmp[0] -= 1
+        
+        
+    def findChangeOne(self, word, i, wordList):
+        words = []
+        s = word[:i]+"."+word[i+1:]
+        for w in wordList:
+            r = re.match(s, w)
+            if r == None:
+                continue
+            words.append(w)
+        return words
+        
