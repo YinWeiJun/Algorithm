@@ -1,3 +1,6 @@
+# BFS会占用很多空间，假如一个二进制树，随着深度增加，空间成倍数增加
+# 为了解决空间占用问题，可以采用双向遍历，则树的深度减半
+
 from collections import defaultdict
 class Solution(object):
     def __init__(self):
