@@ -1,0 +1,68 @@
+class Solution(object):
+    def findLadders(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: List[List[str]]
+        """
+        if not wordList or endWord not in wordList:
+            return []
+        # changeDict = self.getChangeDict(wordList)
+        ladders = [[beginWord]]
+        find, firstFind = False, True
+        while ladders and not find and len(ladders[0]) < len(wordList):
+            tmp = []
+            for ladder in ladders:
+                lastWord = ladder[-1]
+                # changeWords = self.getChangeWords(lastWord, changeDict) # Memory Limit Exceeded
+                changeWords = self.getChangeOne(lastWord, wordList)       # Time Limit Exceeded
+                if not changeWords:
+                    continue
+                if endWord in changeWords:
+                    if firstFind:
+                        tmp = []
+                        firstFind = False
+                    ladder.append(endWord)
+                    tmp.append(ladder)
+                    find = True
+                if not find:
+                    for changeWord in changeWords:
+                        if changeWord in ladder:
+                            continue
+                        tmp_ladder = ladder[:] + [changeWord]
+                        tmp.append(tmp_ladder)
+            ladders = tmp[:]    
+        return ladders
+    
+    # 记录wordList中所有字符可以由什么样的字符变化得到
+    def getChangeDict(self, wordList):
+        changeDict = {}
+        for word in wordList:
+            for i in range(len(word)):
+                s = word[:i] + "." + word[i+1:]
+                if s in changeDict:
+                    changeDict[s].append(word)
+                else:
+                    changeDict[s] = [word]
+        return changeDict
+    
+    # 从wordList中查询出word一次变化可以得到的字符串
+    def getChangeOne(self, word, wordList):
+        changeWords = []
+        for i in range(len(word)):
+            s = word[:i] + "." + word[i+1:]
+            for w in wordList:
+                if re.match(s, w) != None:
+                    changeWords.append(w)
+        return changeWords
+    
+    # 获取wordList中可以由word通过一次改变得到的字符串
+    def getChangeWords(self, word, changeDict):
+        changeWords = []
+        for i in range(len(word)):
+            s = word[:i] + "." + word[i+1:]
+            if s in changeDict:
+                changeWords += changeDict[s]
+                # changeDict[s] = [] # 剔除已经现在改变长度可以得到的结果
+        return changeWords
