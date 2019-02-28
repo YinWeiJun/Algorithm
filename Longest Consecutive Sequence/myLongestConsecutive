@@ -1,0 +1,26 @@
+# 经验：越是感觉简单的东西，越是要细心，注意细节，考虑全面
+
+class Solution(object):
+    def longestConsecutive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # 空
+        if not nums:
+            return 0
+        # 去重
+        nums = list(set(nums))
+        # 排序
+        nums.sort()
+        res, tmp = 1, 1
+        for i in range(1, len(nums)):
+            if nums[i] - nums[i-1] == 1:
+                tmp += 1
+            else:
+                res = max(res, tmp)
+                tmp = 1
+        res = max(res, tmp)
+        return res
+                
+            
