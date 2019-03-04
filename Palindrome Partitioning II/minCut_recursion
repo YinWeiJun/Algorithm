@@ -1,0 +1,31 @@
+# 思路：复杂问题想到采用递归的方式，分别判断0,1,2……次拆分是否能实现，一旦可以实现则结束
+# 判断n次拆分是否可以时，从字符串第一个元素开始，第一个元素，单独拆分，则判断后面元素能不能进行n-1次拆分实现
+# 同理，当第一个元素和前面的元素进行拆分时，就考虑后面剩余的可不可以n-1次拆分实现。
+# 缺点： 时间复杂度太高
+
+class Solution(object):
+    def minCut(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if not s:
+            return 0
+        for i in range(len(s)):
+            if self.recursion(s, i):
+                return i
+        
+        
+    def recursion(self, s, n):
+        if n == 0:
+            if s == s[::-1]:
+                return True
+            else:
+                return False
+        if n == len(s) - 1:
+            return True
+        for i in range(len(s)):
+            left, right = s[:i], s[i:]
+            if left == left[::-1] and self.recursion(right, n-1):
+                return True
+        return False
