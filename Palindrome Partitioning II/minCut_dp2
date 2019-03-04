@@ -1,0 +1,30 @@
+class Solution:
+    def get_palindrome(self, s):
+        dp = [[False] * len(s) for _ in range(len(s))]
+        
+        for end in range(len(s)):
+            for st in range(end + 1):
+                if s[st] == s[end] and (end - st <= 2 or dp[st+1][end-1]):
+                    dp[st][end] = True
+                    
+        return dp
+        
+    def minCut(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if len(s) <= 1:
+            return 0
+        
+        is_palindrome = self.get_palindrome(s)
+        
+        n = len(s)
+        dp = [i for i in range(n+1)]
+        
+        for i in range(1, n + 1):
+            for j in range(i):
+                if is_palindrome[j][i-1]:
+                    dp[i] = min(dp[i], dp[j] + 1)
+        
+        return dp[n] - 1
