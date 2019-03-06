@@ -1,0 +1,10 @@
+# 思想： 参照Single Number I. 3*(a+b+c) - (a+a+a+b+b+b+c) = 2*c
+
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return (3 * sum(list(set(nums))) - sum(nums)) / 2
+        
