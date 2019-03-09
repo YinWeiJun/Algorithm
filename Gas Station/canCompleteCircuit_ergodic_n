@@ -1,0 +1,33 @@
+# 如果能够循环一次，则total_diff = sum(gas_ups) - sum(cost) >= 0; 从第一个gas开始遍历，如果diff = gas_ups[i] - cost[i] < 0显然不能从该点开始
+# 如果大于0，先记录为起点，然后从该点开始计算sum(diff), 如果一直大于等于0，显然从该点到最后一个点都是可以的，然后满足total_diff >= 0,则返回该点
+# 反之，遍历过程中，一旦遇到sum(diff) < 0, 之前记录的起点，显然不行，所以从使sum(diff) < 0的点之后，diff>=0 的点开始，记录为起点，以此类推。
+
+class Solution(object):
+    def canCompleteCircuit(self, gas_ups, costs):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        # The index of the gas station from which to begin.
+        first_station = 0
+        # Gas currently available since we started from first_station.
+        available_gas = 0
+        # gas_cost_diff is the difference between total gas_ups and total costs.
+        # gas_cost_diff
+        # = (gas_ups[0] + gas_ups[1] + ...) - (costs[0] - costs[1] + ...)
+        #
+        # The idea is that if total gas >= total cost, then traveling around the
+        # circuit is possible, else not.
+        gas_cost_diff = 0
+        for i in range(len(gas_ups)):
+            gas_cost_diff = gas_cost_diff + gas_ups[i] - costs[i]
+            available_gas = available_gas + gas_ups[i] - costs[i]
+            # If, at the current status, we run out of gas, then it's not possible
+            # to start at the previously recorded first_station. We reset the
+            # first_station to the next one, reset available_gas to 0, and try
+            # from there.
+            if available_gas < 0:
+                available_gas = 0
+                first_station = i + 1
+        return first_station if gas_cost_diff >= 0 else -1
