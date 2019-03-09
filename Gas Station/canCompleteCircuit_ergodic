@@ -1,0 +1,27 @@
+# 思路： 从第一个站开始尝试，计算循环一次够不够，直到找到可以循环的位置位置，否则返回-1
+
+class Solution(object):
+    def canCompleteCircuit(self, gas, cost):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        if not gas or not cost:
+            return -1
+        indexs = [i for i in range(len(gas))]
+        for i in range(len(indexs)):
+            tank = gas[i] - cost[i]
+            if tank < 0:
+                continue
+            tmp_indexs = indexs[i+1:] + indexs[0:i]
+            tmp_tank = tank
+            for j in tmp_indexs:
+                tmp_tank = tmp_tank + gas[j] - cost[j]
+                if tmp_tank < 0:
+                    break
+            if tmp_tank < 0:
+                continue
+            else:
+                return i
+        return -1
