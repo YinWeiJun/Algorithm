@@ -1,0 +1,32 @@
+class Solution(object):
+    def detectCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        def getCycleIntersection(head):
+            slow = fast = head
+            while fast != None and fast.next != None:
+                slow = slow.next
+                fast = fast.next.next
+                
+                if slow == fast:
+                    return slow
+            
+            return None
+        
+        def getCycleEntrance(head, nodeInCycle):
+            currNode = head
+            while nodeInCycle != currNode:
+                currNode = currNode.next
+                nodeInCycle = nodeInCycle.next
+            
+            return currNode
+        
+       
+        nodeInCycle = getCycleIntersection(head)
+        
+        if not nodeInCycle:
+            return None
+        
+        return getCycleEntrance(head, nodeInCycle)
