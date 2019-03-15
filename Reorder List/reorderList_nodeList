@@ -31,4 +31,32 @@ class Solution(object):
             tmp.next = nodeList[l]
             tmp = tmp.next
         tmp.next = None
-        
+
+# 同样的方法，不同的遍历方式
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def reorderList(self, head):
+        """
+        :type head: ListNode
+        :rtype: void Do not return anything, modify head in-place instead.
+        """
+        # base case:
+        if not head:
+            return 
+        cur=head
+        res=[]
+        while cur:
+            res.append(cur)
+            cur=cur.next
+            
+        for i in range(len(res)/2):
+            res[i].next=res[len(res)-i-1]
+            res[len(res)-1-i].next=res[i+1]
+        res[len(res)/2].next=None
+        return 
