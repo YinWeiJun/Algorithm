@@ -1,0 +1,34 @@
+# 思路：用数组将node全部进来下来，然后遍历数组
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def reorderList(self, head):
+        """
+        :type head: ListNode
+        :rtype: None Do not return anything, modify head in-place instead.
+        """
+        if not head:
+            return None
+        nodeList = []
+        tmp = head
+        while tmp:
+            nodeList.append(tmp)
+            tmp = tmp.next
+        l, r = 1, len(nodeList)-1
+        tmp = nodeList[0]
+        while l < r:
+            node1, node2 = nodeList[l], nodeList[r]
+            tmp.next = node2
+            node2.next = node1
+            tmp = node1
+            l, r= l+1, r-1
+        if l == r:
+            tmp.next = nodeList[l]
+            tmp = tmp.next
+        tmp.next = None
+        
