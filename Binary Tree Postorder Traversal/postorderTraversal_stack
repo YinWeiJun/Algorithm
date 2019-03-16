@@ -29,3 +29,35 @@ class Solution(object):
             res.append(node.val)
             tmp.pop()
         return res
+  
+------------------------------------------------------------------
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def postorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        if not root:
+            return []
+        res, tmp = [root.val], [root]
+        while tmp:
+            node = tmp[-1]
+            if node.right:
+                tmp.append(node.right)
+                res.append(node.right.val)
+                node.right = None
+                continue
+            if node.left:
+                tmp.append(node.left)
+                res.append(node.left.val)
+                node.left = None
+                continue
+            tmp.pop()
+        return res[::-1]
