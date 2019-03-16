@@ -61,3 +61,58 @@ class Solution(object):
                 continue
             tmp.pop()
         return res[::-1]
+
+------------------------------------------------------------
+class Solution(object):
+    def postorderTraversal(self, root):
+        stack, res = [], []
+        while stack or root:
+            if root:
+                stack.append(root)
+                res.append(root.val)    
+                root = root.right     #先加右边，在左边。
+            else:
+                node = stack.pop()
+                root = node.left
+        return res[::-1]     #返回Reversed的list
+        
+        
+-------------------------------------------------------------
+# Stack (Reverse Preorder)
+# 利用Postorder和Preorder的关系，取巧的先迭代右边子孙，最后返回reversed的List即可，脑子晕的小伙伴去画张图即可。
+ 
+ class Solution(object):
+    def postorderTraversal(self, root):
+        res, stack = [], [(root, False)]
+        while stack:
+            node, visited = stack.pop()
+            if node:
+                if visited:
+                    res.append(node.val)
+                else:
+                    stack.append((node, True))
+                    stack.append((node.right, False))
+                    stack.append((node.left, False))
+        return res
+        
+        
+-----------------------------------------------------------------
+# Stack (利用Flag)
+# 每次往Stack里面储存的顺序是，先存储当前root，然后right，最后left，这样当pop到最左边叶子节点的时候，就为第一个print的数，
+# 因为我们每次pop完之后的root之后还会用到，所以这里利用flag，每次及时使用完root也将root重新放回stack，在之后pop过程中再检查flag，
+# 如果visited过，则不再放回stack。
+ 
+ 
+ class Solution(object):
+    def postorderTraversal(self, root):
+        res, stack = [], [(root, False)]
+        while stack:
+            node, visited = stack.pop()
+            if node:
+                if visited:
+                    res.append(node.val)
+                else:
+                    stack.append((node, True))
+                    stack.append((node.right, False))
+                    stack.append((node.left, False))
+        return res
