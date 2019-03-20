@@ -1,0 +1,47 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def insertionSortList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head:
+            return head
+        tmp = head
+        first, last = head, head
+        i = 0
+        tmp = first.next
+        while tmp:
+            print(tmp.val)
+            i = i + 1
+            tmp_next = tmp.next
+            if tmp.val <= first.val:
+                tmp.next = first
+                first = tmp
+                tmp = tmp_next
+                continue
+            if tmp.val >= last.val:
+                last.next = tmp
+                last = tmp
+                tmp = tmp_next
+                continue
+            tmp_p, tmp_n = first, first.next
+            j = 1
+            while j < i:
+                if tmp.val > tmp_n.val:
+                    j = j + 1
+                    tmp_p, tmp_n = tmp_n, tmp_n.next
+                else:
+                    tmp_p.next = tmp
+                    tmp.next = tmp_n
+                    break
+            tmp = tmp_next
+        last.next = None
+        return first
+                    
+                
