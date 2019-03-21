@@ -1,0 +1,79 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def sortList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head or not head.next:
+            return head
+        
+        # slow,fast = head,head.next
+        # while fast.next and fast.next.next:
+        #     fast = fast.next.next
+        #     slow = slow.next
+        # second = slow.next
+        # slow.next = None
+        
+#         l = self.sortList(head)
+#         r = self.sortList(second)
+#         return self.merge(l,r)
+        
+#     def merge(self, l, r): # O(NlgN)
+#         if not l or not r:
+#             return l or r
+#         dummy = head = ListNode(None)
+#         head.next = l
+#         while l and r:
+#             if l.val < r.val:
+#                 head.next = l
+#                 l = l.next
+#             else:
+#                 head.next = r
+#                 r = r.next
+#             head = head.next
+#         head.next = l or r # l and r at least one is None
+#         return dummy.next
+    
+        
+#     def reverseList(self, head):
+#         if not head:
+#             return
+#         prev, cur = None, head
+#         while cur:
+#             nxt = cur.next
+#             cur.next = prev
+#             prev = cur
+#             cur = nxt
+#         return prev
+        l, m, r = ListNode(None), ListNode(None), ListNode(None)
+        ll, mm, rr = l, m, r
+        
+        pivot = head.val
+        while head:
+            if head.val < pivot:
+                ll.next = head
+                ll = ll.next
+            elif head.val == pivot:
+                mm.next = head
+                mm = mm.next
+            else:
+                rr.next = head
+                rr = rr.next
+            head = head.next
+        
+        ll.next, rr.next = None, None
+        l.next = self.sortList(l.next)
+        r.next = self.sortList(r.next)
+        ll = l
+        while ll.next:
+            ll = ll.next 
+        ll.next = m.next    
+        mm.next = r.next
+        return l.next
+    
