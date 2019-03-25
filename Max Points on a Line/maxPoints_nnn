@@ -1,0 +1,65 @@
+# Definition for a point.
+# class Point(object):
+#     def __init__(self, a=0, b=0):
+#         self.x = a
+#         self.y = b
+
+# 思路： 通过三层循环，判断第三层循环中的点是否在前两层的点组成的线上，记录最大点数
+
+class Solution(object):
+    def maxPoints(self, points):
+        """
+        :type points: List[Point]
+        :rtype: int
+        """
+        if len(points) < 3:
+            return len(points)
+        
+        # 记录每个点出现的次数，并去重
+        size, tmp_points = {}, []
+        for p in points:
+            s = self.point2String(p)
+            if s in size:
+                size[s] += 1
+            else:
+                tmp_points.append(p)
+                size[s] = 1
+        
+        # 判断去重后的点个数
+        if len(tmp_points) < 3:
+            return len(points)
+        
+        max_n = 0
+        for i in range(len(tmp_points)):
+            p1 = tmp_points[i]
+            s1 = self.point2String(p1)
+            for j in range(i+1, len(tmp_points)):
+                p2 = tmp_points[j]
+                s2 = self.point2String(p2)
+                n = size[s1] + size[s2]
+                for k in range(j+1, len(tmp_points)):
+                    p = tmp_points[k]
+                    s = self.point2String(p)
+                    if self.pointInLine(p1, p2, p):
+                        n += size[s]
+                max_n = max(max_n, n)
+                # if max_n >= len(points) / 2 + 1:
+                #     return max_n
+        return max_n
+                        
+    def point2String(self, p):
+        return "{},{}".format(float(p.x), float(p.y))
+        
+    def pointInLine(self, pl, pr, p):
+        # 比值法
+        if pl.x == pr.x:
+            if pr.x == p.x:
+                return True
+            return False
+        if p.x == pr.x:
+            return False
+        r1 = float(pr.y - pl.y) / float(pr.x - pl.x)
+        r2 = float(p.y - pr.y) / float(p.x - pr.x)
+        if r1 == r2:
+            return True
+        return False
