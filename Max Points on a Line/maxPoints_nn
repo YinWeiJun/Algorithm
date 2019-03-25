@@ -1,0 +1,76 @@
+# Definition for a point.
+# class Point(object):
+#     def __init__(self, a=0, b=0):
+#         self.x = a
+#         self.y = b
+
+# 思路：双层循环，计算出每两个点的表达式，用字典记录每个表达式出现的次数，返回次数的最大值
+# 但是这个方法有三个值得注意的地方：
+# 第一，points中可能存在重复点，为了减少重复计算，可以记录每个点的个数，然后points去重，每次计算的表达式的点的数量要考虑重复次数
+# 第二，整数陷阱，整数计算会参数整数，会损失精度，进而得到错误结果
+# 第三，大数问题，如（0,0），（94911150,94911151），（94911151,94911152）由于精度问题，导致计算出的a,b相同，得到相同y=ax+b
+# 本方法第三个问题还未解决
+
+
+class Solution(object):
+    def maxPoints(self, points):
+        """
+        :type points: List[Point]
+        :rtype: int
+        """
+        if len(points) < 3:
+            return len(points)
+        
+        # 记录每个点出现的次数，并去重
+        sign, size, tmp_points = {}, {}, []
+        for p in points:
+            s = self.point2String(p)
+            if s in size:
+                size[s] += 1
+            else:
+                tmp_points.append(p)
+                size[s] = 1
+        
+        # 判断去重后的点个数
+        if len(tmp_points) < 3:
+            return len(points)
+        
+        # 判断所有情况点的个数
+        for i in range(len(tmp_points)):
+            p1 = tmp_points[i]
+            s1 = self.point2String(p1)
+            tmp_sign = {}
+            for j in range(i+1, len(tmp_points)):
+                p2 = tmp_points[j]
+                s2 = self.point2String(p2)
+                e = self.calExpression(p1, p2)
+                if e in sign:
+                    continue
+                if e in tmp_sign:
+                    tmp_sign[e] = tmp_sign[e] + size[s2]
+                else:
+                    tmp_sign[e] = size[s1] + size[s2]
+            print(tmp_sign)
+            sign.update(tmp_sign)
+        # sign = sorted(sign, key = lambda d: d[1])
+        return max(sign.values())
+
+    def isSame(self, p1, p2):
+        if p1.x == p2.x and p1.y == p2.y:
+            return True
+        return False
+    
+    def point2String(self, p):
+        return "{},{}".format(float(p.x), float(p.y))
+    
+    def calExpression(self, p1, p2):
+        dx, dy = float(p2.x - p1.x), float(p2.y - p1.y)
+        if dx == dy == 0:
+            return "ALL"
+        if dx == 0:
+            return "x={}".format(p1.x)
+        if dy == 0:
+            return "y={}".format(p1.y)
+        a = dy / dx
+        b = p1.y - a * p1.x
+        return "y={}x+{}".format(a, b)
