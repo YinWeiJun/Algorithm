@@ -1,0 +1,38 @@
+# Definition for a point.
+# class Point(object):
+#     def __init__(self, a=0, b=0):
+#         self.x = a
+#         self.y = b
+
+class Solution(object):
+    def maxPoints(self, points):
+        if len(points) == 0:
+            return 0
+
+        count_all_unique_points = collections.defaultdict(int)
+
+        for p in points:
+            count_all_unique_points[(p.x, p.y)] = count_all_unique_points[(p.x, p.y)] + 1
+
+        all_points = list(count_all_unique_points.keys())
+
+        if len(all_points) == 1:
+            return count_all_unique_points[all_points[0]]
+
+        max_points = 0
+        for i in range(len(all_points) - 1):
+            slopes = {}
+            repCnt = 1
+
+            for j in range(i + 1, len(all_points)):
+                dx = all_points[i][0] - all_points[j][0]
+                dy = all_points[i][1] - all_points[j][1]
+                if dx == 0:
+                    slope = "#"
+                elif dy == 0:
+                    slope = 0
+                else:
+                    slope = float(dy) / dx
+                slopes[slope] = slopes.get(slope, 0) + count_all_unique_points[all_points[j]]
+            max_points = max(max_points, count_all_unique_points[all_points[i]] + max(slopes.values()))
+        return max_points
