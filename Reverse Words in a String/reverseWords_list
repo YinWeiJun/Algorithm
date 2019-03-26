@@ -9,6 +9,8 @@ class Solution(object):
         for s in sList[::-1]:
             if not s:
                 continue
-            print(s)
-            res += " " + s.strip()
-        return res.strip()
+            if not res:
+                res += s.strip()
+            else:
+                res += " " + s.strip()
+        return res
