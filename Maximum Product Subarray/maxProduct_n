@@ -1,0 +1,19 @@
+class Solution(object):
+    def maxProduct(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+
+        # local_max/min, global_max, previous_local_min
+        l_max = l_min = g_max = p_l_min = nums[0]
+
+        for num in nums[1:]:
+            p_l_min = l_min
+            l_min = min(num, num*l_min, num*l_max)            
+            l_max = max(num, num*l_max, num*p_l_min)
+            g_max = max(l_max, g_max)
+
+        return g_max
