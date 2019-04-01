@@ -1,0 +1,50 @@
+class Solution(object):
+    def fractionToDecimal(self, numerator, denominator):
+        """
+        :type numerator: int
+        :type denominator: int
+        :rtype: str
+        """
+        res = [""]
+        self.recursion(str(numerator), denominator, 0, -1, 0, res)
+        while res[0][0] == "0":
+            res[0] = res[0][1:]
+        if res[0][0] == ".":
+            res[0] = "0" + res[0]
+        return res[0]
+        
+        
+    def recursion(self, numerator, denominator, remainder, pre, i, res):
+        """
+        :type numerator: str
+        :type denominator: int   
+        :type remainder: int
+        :type pre: int
+        :type i: int
+        :type res: str
+        :rtype: None
+        """
+        print("---------{}--------".format(res))
+        a = 0
+        if i < len(numerator):
+            a = int(numerator[i])
+        elif i == len(numerator):
+            if remainder == 0:
+                return None
+            res[0] += "."
+        else:
+            if remainder == 0:
+                return None
+            if remainder == pre:
+                res[0] = res[0][:-1] + "(" +res[0][-1] + ")"
+                return None
+        num = a + remainder * 10
+        if num > denominator:
+            n = num / denominator
+            m = num % denominator
+            res[0] += str(n)
+            self.recursion(numerator, denominator, m, remainder, i+1, res)
+        else:
+            res[0] += "0"
+            self.recursion(numerator, denominator, num, remainder, i+1, res)
+            
