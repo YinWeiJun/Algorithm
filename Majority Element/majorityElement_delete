@@ -1,0 +1,16 @@
+class Solution(object):
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        pre = []
+        for num in nums:
+            if not pre:
+                pre.append(num)
+                continue
+            if num == pre[-1]:
+                pre.append(num)
+            else:
+                pre.pop()
+        return pre[-1]
