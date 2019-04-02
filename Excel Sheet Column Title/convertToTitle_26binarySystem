@@ -1,0 +1,19 @@
+class Solution(object):
+    def convertToTitle(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        tmp = n
+        res = []
+        while tmp > 26:
+            n, m = divmod(tmp, 26)
+            if m == 0:
+                res.append("Z")
+                tmp = n - 1
+            else:
+                res.append(chr(m + 64))
+                tmp = n
+        if tmp > 0:
+            res.append(chr(tmp + 64))
+        return "".join(res[::-1])
