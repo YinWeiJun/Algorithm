@@ -11,9 +11,10 @@ class Solution(object):
             if n == 0:
                 pre, n = num, 1
             else:
-                if num == pre:
-                    n += 1
-                else:
-                    n -= 1
+                n += (1 if num == pre else -1)
+                # if num == pre:
+                #     n += 1
+                # else:
+                #     n -= 1
             i += 1
         return pre
