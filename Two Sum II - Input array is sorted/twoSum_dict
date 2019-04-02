@@ -1,0 +1,14 @@
+class Solution(object):
+    def twoSum(self, numbers, target):
+        """
+        :type numbers: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        sign = {}
+        for i in range(len(numbers)):
+            if numbers[i] in sign:
+                return [sign[numbers[i]], i + 1]
+            else:
+                sign[target-numbers[i]] = i + 1
+        return []
