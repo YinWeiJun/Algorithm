@@ -1,0 +1,15 @@
+# 第一想法是计算出阶乘，然后判断尾部0的个数，但是这样需要计算阶乘，当n太大是，计算复杂度太高
+# 通过输出阶乘，寻找尾部0与n的关系
+# 容易发现，只有阶乘中存在5的倍数的数字才会有0，1-4的阶乘并不存在0，5-9只有1个，10-14有两个……
+
+class Solution(object):
+    def trailingZeroes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        n_zero = 0
+        while n:
+            n = n // 5
+            n_zero += n
+        return n_zero
