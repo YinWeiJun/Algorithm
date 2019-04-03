@@ -1,0 +1,11 @@
+class Solution(object):
+    def titleToNumber(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        output = 0
+        for char in s:
+            output *= 26
+            output += ord(char) - 64
+        return output
