@@ -1,0 +1,24 @@
+class Solution(object):
+    def calculateMinimumHP(self, dungeon):
+        """
+        :type dungeon: List[List[int]]
+        :rtype: int
+        """
+        '''
+            This is a derterministic Markov Decision Process (MPD), we can write the following Bellman Equation
+            V(i, j) = max(min(V(i + 1, j), V(i, j + 1)) - R(i, j), 1)
+            let V(i, j) be the minimum HP needed if starting from position (i, j) and R(i,j) being the reward to be in position (i, j), then we can write the above Bellman Equation,
+            
+        '''
+        m = len(dungeon)
+        n = len(dungeon[0])
+        V = [[1 for j in range(n)] for i in range(m)]
+        V[m - 1][n - 1] = max(1 - dungeon[m - 1][n - 1], 1)
+        for i in range(m - 2, -1, -1):
+            V[i][n - 1] = max(V[i + 1][n - 1] - dungeon[i][n - 1], 1)
+        for j in range(n - 2, -1, -1):
+            V[m - 1][j] = max(V[m - 1][j + 1] - dungeon[m - 1][j], 1)
+        for i in range(m - 2, -1, -1):
+            for j in range(n - 2, -1, -1):
+                V[i][j] = max(min(V[i + 1][j], V[i][j + 1]) - dungeon[i][j], 1)
+        return V[0][0]
