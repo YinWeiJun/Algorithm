@@ -1,0 +1,26 @@
+class Solution(object):
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return self.recursion(nums, {})
+        
+    def recursion(self, nums, sign):
+        length = len(nums)
+        if length == 0:
+            return 0
+        if length == 1:
+            return nums[0]
+        if length == 2:
+            return max(nums[0], nums[1])
+        if length in sign:
+            return sign[length]
+        else:
+            tmp1 = self.recursion(nums[2:], sign)
+            sign[length-2] = tmp1
+            res1 = nums[0] + tmp1
+            tmp2 = self.recursion(nums[3:], sign)
+            sign[length-3] = tmp2
+            res2 = nums[1] + tmp2
+            return max(res1, res2)
