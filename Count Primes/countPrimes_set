@@ -1,0 +1,31 @@
+思想：从所有数字中排除非质数
+如： [2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+第一步： 取出数组第一个元素，直接判断为质数，即 2， 排除2的倍数，2*2 2*3 2*4 2*5 2*6 2*7
+数组变为： [2,3,5,7,9,11,13,15]
+第二步: 取出数组下一个元素，直接判断为质数，即 3， 排除3的倍数，3*3 3*5
+数组变为： [2,3,5,7,11,13]
+第三部: 取出数组下一个元素，直接判断为质数，即 5， 排除3的倍数，....
+...
+如此循环，直到遍历完成为止
+
+class Solution(object):
+    def countPrimes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 2:
+            return 0
+        i, non_primes = 2, set()
+        while i < n:
+            if i in non_primes:
+                i += 1
+                continue
+            j, tmp = i, set()
+            while i * j < n:
+                if j not in non_primes:
+                    tmp.add(i * j)
+                j += 1
+            non_primes = non_primes.union(tmp)
+            i += 1
+        return n - 2 - len(non_primes)
