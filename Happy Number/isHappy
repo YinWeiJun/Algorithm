@@ -1,0 +1,18 @@
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        sign = set()
+        while n != 1:
+            s = str(n)
+            if s in sign:
+                return False
+            else:
+                sign.add(s)
+            tmp = 0
+            for i in s:
+                tmp += (int(i))**2
+            n = tmp
+        return True
