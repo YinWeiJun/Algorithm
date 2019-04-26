@@ -1,0 +1,18 @@
+from math import sqrt
+
+class Solution(object):
+    def countPrimes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        import numpy as np
+        if n <= 2:
+            return 0
+        blacklist = np.ones(((n-2) // 2, ), dtype=np.bool)
+        threshold = int(math.sqrt(n))+1
+        for i in range(3, threshold, 2):
+            if blacklist[(i-3) // 2]:
+                # Use the list comprehension to update
+                blacklist[(i * i - 3) // 2: n: i] = False
+        return int(np.sum(blacklist)) + 1
