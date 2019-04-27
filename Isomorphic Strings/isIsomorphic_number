@@ -1,0 +1,24 @@
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        if len(s) != len(t):
+            return False
+        sign_s, sign_t = {}, {}
+        n_s, n_t = 0, 0
+        for i in range(len(s)):
+            c_s, c_t = s[i], t[i]
+            if c_s in sign_s:
+                n_s += n_s * 10 + sign_s[c_s]
+            else:
+                n_s += n_s * 10 + (i+1)
+                sign_s[c_s] = (i+1)
+            if c_t in sign_t:
+                n_t += n_t * 10 + sign_t[c_t]
+            else:
+                n_t += n_t * 10 + (i+1)
+                sign_t[c_t] = (i+1)
+        return n_s == n_t
