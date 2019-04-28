@@ -32,8 +32,12 @@ class Solution(object):
                 # 传递依赖
                 if pre[1] in sign_0:
                     for j in sign_0[pre[1]]:
+                        if str([pre[0], j]) in sign:
+                            continue
                         prerequisites.append([pre[0], j])
                 if pre[0] in sign_1:
                     for i in sign_1[pre[0]]:
+                        if str([i, pre[1]]) in sign:
+                            continue
                         prerequisites.append([i, pre[1]])
         return True
