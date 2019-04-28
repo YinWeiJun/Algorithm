@@ -1,0 +1,39 @@
+# 思想：用字典记录以及存在的依赖，包括通过传递产生的依赖，所以只有[a,b]和[b,a]同时出现时才会不可以
+
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        sign_0 = {}
+        sign_1 = {}
+        sign = {}
+        # prerequisites.sort()
+        for pre in prerequisites:
+            if str(pre[::-1]) in sign:
+                return False
+            else:
+                # 记录需要依赖的位置
+                sign[str(pre)] = 1
+                if pre[0] in sign_0:
+                    sign_0[pre[0]].append(pre[1])
+                    sign_0[pre[0]] = list(set(sign_0[pre[0]]))
+                else:
+                    sign_0[pre[0]] = [pre[1]]
+                    
+                if pre[1] in sign_1:
+                    sign_1[pre[1]].append(pre[0])
+                    sign_1[pre[1]] = list(set(sign_1[pre[1]]))
+                else:
+                    sign_1[pre[1]] = [pre[0]]
+                    
+                # 传递依赖
+                if pre[1] in sign_0:
+                    for j in sign_0[pre[1]]:
+                        prerequisites.append([pre[0], j])
+                if pre[0] in sign_1:
+                    for i in sign_1[pre[0]]:
+                        prerequisites.append([i, pre[1]])
+        return True
