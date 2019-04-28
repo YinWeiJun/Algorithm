@@ -1,0 +1,26 @@
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        reqs = {}
+        revreqs = {}
+        coursesWithoutDependency = set([i for i in range(numCourses)])
+        for course, dependency in prerequisites:
+            reqs[dependency] = reqs.get(dependency, []) + [course]
+            revreqs[course] = revreqs.get(course, set())
+            revreqs[course].add(dependency)
+            coursesWithoutDependency.discard(course)
+        count = len(coursesWithoutDependency)
+        while len(coursesWithoutDependency) > 0:
+            newcourses = set()
+            for course in coursesWithoutDependency:
+                for dep in reqs.get(course,[]):
+                    revreqs[dep].discard(course)
+                    if len(revreqs[dep]) == 0:
+                        newcourses.add(dep)
+                        count+=1
+            coursesWithoutDependency = newcourses
+        return count == numCourses
