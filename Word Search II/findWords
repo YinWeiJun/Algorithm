@@ -1,0 +1,55 @@
+class TrieNode(object):
+    def __init__(self):
+        self.letterMap ={}
+        self.isCompletedWord = False
+
+class Solution(object):
+    def insertIntoTrie(self, node, word, index):
+        if index == len(word):
+            node.isCompletedWord = True
+            return
+        letter = word[index]
+        if not node.letterMap.get(letter,None):
+            tempNode = TrieNode()
+            node.letterMap[letter] = tempNode
+        else:
+            tempNode = node.letterMap.get(letter)
+        return self.insertIntoTrie(tempNode, word, index+1)
+
+    def doDfs(self, i, j, node, parentLetter):
+        if node.isCompletedWord == True:
+            if parentLetter not in self.results:
+                self.results.add(parentLetter)
+        neighborsInInput = [(i+1,j),(i-1,j),(i,j+1), (i,j-1)]
+        for neighbor in neighborsInInput:
+            if not (neighbor[0] >= 0 and neighbor[0] < self.xlimit and neighbor[1] >=0 and neighbor[1] < self.ylimit and neighbor not in self.visited):
+                continue
+            letter = self.input[neighbor[0]][neighbor[1]]
+            if node.letterMap.get(letter,None):
+                self.visited.add(neighbor)
+                self.doDfs(neighbor[0], neighbor[1], node.letterMap.get(letter), parentLetter+letter)
+                self.visited.remove(neighbor)
+                
+    def findWords(self, board, words):
+        """
+        :type board: List[List[str]]
+        :type words: List[str]
+        :rtype: List[str]
+        """
+        if not board:
+            return []
+        self.input = board
+        self.xlimit = len(board)
+        self.ylimit = len(board[0])
+        self.rootNode = TrieNode()
+        self.results  = set()
+        for word in words:
+            self.insertIntoTrie(self.rootNode, word,0)
+        for i in range(self.xlimit):
+            for j in range(self.ylimit):
+                letter = self.input[i][j]
+                if self.rootNode.letterMap.get(letter,None):
+                    self.visited = set()
+                    self.visited.add((i,j))
+                    self.doDfs(i,j,self.rootNode.letterMap.get(letter),letter)
+        return list(self.results)
