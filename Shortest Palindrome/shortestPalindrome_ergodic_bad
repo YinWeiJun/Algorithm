@@ -8,8 +8,7 @@ class Solution(object):
             return s
         i = -1
         while i > -1 * len(s):
-            ss = s[i:][::-1] + s
-            if ss == ss[::-1]:
-                return ss
+            if s[:i] == s[:i][::-1]:
+                return s[i:][::-1] + s
             i -= 1
         
