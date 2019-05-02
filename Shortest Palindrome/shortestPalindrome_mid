@@ -1,0 +1,15 @@
+# 思想：直接判断s == s[::-1]时，如果s太长会出问题，所以采用mid，减少字符串长度
+
+class Solution(object):
+    def shortestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        j = len(s) - 1
+        while j > 0:
+            mid = j // 2
+            if (j % 2 == 0 and s[:mid]==s[mid+1:j+1][::-1]) or (j % 2 == 1 and s[:mid+1]==s[mid+1:j+1][::-1]): 
+                break
+            j -= 1
+        return s[j+1:][::-1] + s
