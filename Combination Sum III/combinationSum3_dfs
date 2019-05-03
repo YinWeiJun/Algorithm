@@ -1,0 +1,26 @@
+class Solution(object):
+    def combinationSum3(self, k, n):
+        """
+        :type k: int
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        res, tmp = [], []
+        self.dfs(k, n, 1, tmp, res)
+        return res
+    
+    def dfs(self, k, n, pos, tmp, res):
+        if k == 1:
+            if pos <= n <= 9:
+                tmp.append(n)
+                res.append(tmp[:])
+                return True
+            else:
+                return False
+        if pos * 2 > n:
+            return False
+        for i in range(pos, 10):
+            tmp1 = tmp[:]
+            tmp1.append(i)
+            self.dfs(k-1, n-i, i+1, tmp1, res)
+                
