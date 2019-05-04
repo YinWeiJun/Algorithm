@@ -1,0 +1,77 @@
+# 思想：观察问题特点
+# 通过观察可以发现，返回的节点都是所处位置除了左侧点的最高点
+# 具体流程：
+# 1. 将所有building的两个高点分别记录到points中，并标记好是左节点（“left”）还是右节点（“right”）
+      注意：在记录过程中，将相邻的同高度的building合并成一个，且去除被包含的building
+# 2. 定义heights=[0], 遍历points，根据point的特点进行判断是否加入output
+      当前点的高度大于 heigths[-1]且为“left”点, 则该点一定是高点，所以可以加入output，同时记录这个高度到heights中
+      当前点的高度小于 heights[-1]且为“right”点，则该点肯定不是高点，可以跳过，但是同样需要记录这个高度到heights中,并排序
+      当前点的高度等于 heights[-1]则只有可能为“right”点，height.pop(), 则当前的x点的高度应该记录heights[-1]
+      。。。
+      具体参见代码
+      注意：用n_l代表当前判断过的“left”, 如果判断一个“right”，n_l -= 1，当n_l == 0的时候，就是相连建筑群判断完的位置，该点的高度记为 0.
+
+
+
+class Solution(object):
+    def getSkyline(self, buildings):
+        """
+        :type buildings: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        if not buildings:
+            return []
+        skylines = []
+        points = []
+        for building in buildings:
+            if points:
+                building_pre = [points[-2][0], points[-1][0], points[-1][1]]
+                building_big = self.contained(building_pre, building)
+                if building_big:
+                    points[-2] = [building_big[0], building_big[2], "left"]
+                    points[-1] = [building_big[1], building_big[2], "right"]
+                    continue
+            if points and building[0] <= points[-1][0] and building[2] == points[-1][1]:
+                points[-1][0] = max(building[1], points[-1][0])
+                continue
+            points.append([building[0], building[2], "left"])
+            points.append([building[1], building[2], "right"])
+        points = sorted(points, key = lambda p : p[0])
+        
+        heights = [0]
+        n_l = 0
+        for point in points:
+            if point[1] > heights[-1]:
+                if point[2] == "left":
+                    if skylines and point[0] == skylines[-1][0]:
+                        skylines[-1][1] = point[1]
+                    else:
+                        skylines.append([point[0], point[1]])
+                    heights.append(point[1])
+                    n_l += 1
+                else:
+                    pass # 不存在此类情况
+            elif point[1] == heights[-1]:
+                heights.pop()
+                skylines.append([point[0], heights[-1]])
+                n_l -= 1
+                continue
+            else:
+                if point[2] == "right":
+                    heights.remove(point[1])
+                else:
+                    heights.append(point[1])
+                    heights.sort()
+                    n_l += 1
+            if n_l == 0:
+                skylines.append([point[0], 0])
+                heights = [0]
+        return skylines
+            
+    def contained(self, building1, building2):
+        if building1[0] <= building2[0] and building1[1] >= building2[1] and building1[2] >= building2[2]:
+            return building1
+        elif building2[0] <= building1[0] and building2[1] >= building1[1] and building2[2] >= building1[2]:
+            return building2
+        else:
+            return False  
