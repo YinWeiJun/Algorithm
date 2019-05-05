@@ -1,0 +1,18 @@
+class Solution(object):
+    def containsNearbyDuplicate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        sign = {}
+        for i in range(0, len(nums)):
+            n = nums[i]
+            if n in sign:
+                if i - sign[n] <= k:
+                    return True
+                else:
+                    sign[n] = i
+            else:
+                sign[n] = i
+        return False
