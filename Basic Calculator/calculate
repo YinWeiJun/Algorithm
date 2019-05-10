@@ -16,7 +16,7 @@ class Solution(object):
                 total += signs.pop() * int(s[start:i])
                 continue
             if c in '+-(':
-                signs += signs[-1] * (1, -1)[c == '-'],
+                signs += signs[-1] * (1, -1)[c == '-'] # 通过==判断的结果0,1，获取set的值，很巧妙
             elif c == ')':
                 signs.pop()
             i += 1
