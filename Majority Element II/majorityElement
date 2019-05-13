@@ -1,0 +1,23 @@
+class Solution(object):
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        if not nums:
+            return []
+        if len(nums) < 3:
+            return list(set(nums))
+        n = len(nums) / 3
+        sign = {}
+        res = []
+        for i in nums:
+            if i in sign:
+                sign[i] += 1
+            else:
+                sign[i] = 1
+        for i, j in sign.items():
+            if j > n:
+                res.append(i)
+        return res        
+        
