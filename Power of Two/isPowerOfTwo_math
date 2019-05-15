@@ -1,0 +1,12 @@
+# 注意不能采用 i == int(i) 来进行判断，因为 math.log 运算会产生误差
+
+class Solution(object):
+    def isPowerOfTwo(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        if n < 1:
+            return False
+        i = math.log(n, 2)
+        return n == math.pow(2, int(i))
